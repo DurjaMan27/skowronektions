@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,8 +24,21 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.Game-area {
+  background-color: #ffffff;
+  min-height: 25vh;
+  min-width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px black solid;
+}
+
+.Game-board {
+  background-color: #000000;
+  min-height: 20vh;
+  min-width: 50%;
+  display: block grid;
 }
 
 @keyframes App-logo-spin {
