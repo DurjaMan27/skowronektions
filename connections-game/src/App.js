@@ -7,6 +7,13 @@ function App() {
     // component --> the current state value
     // setComponents --> a function that updates the state value
     // values inside useState --> the initial value of the state, which can be of any type
+
+  const [numWrongGuesses, setGuesses] = useState([0])
+  const incWrongGuesses = () => {
+    setGuesses(numWrongGuesses + 1);
+  }
+
+
   return (
     <>
       <div className="App">
