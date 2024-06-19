@@ -16,6 +16,29 @@ function App() {
     setGuesses(numWrongGuesses + 1);
   }
 
+  const [gameboardItems, setGameboardItems] = useState([])
+  const generateGameboardItems = () => {
+    // will use randomizer to fill in values of gameboardItems
+    // will be passed to GameBoard component to fill in blocks
+  }
+  const updateOrderGameboardItems = (action) => {
+    // will be used to move correct Guesses to the top of the list
+    // will also be used to reshuffle board
+  }
+  const select = (name) => {
+    // will set the selected parameter to true for a certain guess
+    // will make sure that the number of selected items is less than 4 before doing so
+  }
+  const unselectAll = () => {
+    // will set the selected parameter to false for all items in gameboard
+  }
+  const unselectOne = (name) => {
+    // will set the selected parameter to false for a certain guess
+  }
+  const submit = () => {
+
+  }
+
   const list = ["Hello", "world", "here", "I", "am"]
 
   return (
