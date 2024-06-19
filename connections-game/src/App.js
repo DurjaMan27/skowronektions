@@ -12,13 +12,15 @@ function App() {
           <TestComponent />
         </header>
       </div>
-      <div className="Game-area">
-        <p>This content is below the header</p>
-        <div className="Gameboard">
-          <div><p>This is first block</p></div>
-          <div><p>This is second block</p></div>
-          <div><p>This is third block</p></div>
-          <div><p>This is fourth block</p></div>
+      <div className="main">
+        <div className="Game-area">
+          <p>This content is below the header</p>
+          <div className="Gameboard">
+            <div className="list-item"><p>This is first block</p></div>
+            <div className="list-item"><p>This is second block</p></div>
+            <div className="list-item"><p>This is third block</p></div>
+            <div className="list-item"><p>This is fourth block</p></div>
+          </div>
         </div>
       </div>
     </>

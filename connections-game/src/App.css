@@ -41,6 +41,10 @@
   display: block grid;
 }
 
+.list-item {
+  border: 1px black solid;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
