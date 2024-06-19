@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const GameBoard = ( { options } ) => {
     const [message, setMessage] = useState("Check it out");
 
-    const printoptions = (options) => {
+    const printoptions = () => {
         options.forEach(option => {
             console.log(option)
         });
@@ -12,7 +12,7 @@ const GameBoard = ( { options } ) => {
     return (
         <div>
             <h2>{ message }</h2>
-            <button onClick={(options) => printoptions(options)}>Test This One</button>
+            <button onClick={printoptions}>Test This One</button>
         </div>
     );
 };
