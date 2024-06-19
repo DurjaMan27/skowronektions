@@ -98,6 +98,11 @@ function submit() {
         }
 
         // if correct is still true (i.e. all the selected items are of the same group), run correctGuess(), else run wrongGuess()
+        if(correct) {
+            correctGuess();
+        } else {
+            wrongGuess();
+        }
     }
 }
 
