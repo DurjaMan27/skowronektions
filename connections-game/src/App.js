@@ -3,6 +3,10 @@ import './App.css';
 import TestComponent from './components/testComponent';
 
 function App() {
+  const [component, setComponents] = useState(["here is component 1", "here is component 2"])
+    // component --> the current state value
+    // setComponents --> a function that updates the state value
+    // values inside useState --> the initial value of the state, which can be of any type
   return (
     <>
       <div className="App">
