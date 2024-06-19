@@ -87,8 +87,17 @@ function submit() {
     } else {
         // condition ? statement-if-true : statement-if-false
         // iterates through each of the selected items (indices) and checks that the group matches the group number from the first
-        indices.forEach(index => gameboardItems[index]["group"] === gameboardItems[indices[0]]["group"] ? correctGuess() : wrongGuess());
-        indices.forEach()
+        // indices.forEach(index => gameboardItems[index]["group"] === gameboardItems[indices[0]]["group"] ? correctGuess() : wrongGuess());
+        // indices.forEach()
+
+        // iterates through each of the selected items (index) and checks against the first selected item to ensure that they are all of the same group
+        index = 1
+        correct = true
+        while(index < 4) {
+            gameboardItems[indices[index]]["group"] === gameboardItems[indices[0]]["group"] ? index++ : correct = false;
+        }
+
+        // if correct is still true (i.e. all the selected items are of the same group), run correctGuess(), else run wrongGuess()
     }
 }
 
