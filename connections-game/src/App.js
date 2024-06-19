@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import TestComponent from './components/testComponent';
 import GameBoard from './components/GameBoard';
-import correctGuess from './components/functions';
+import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedItems, submit, correctGuess, wrongGuess, checkPreviousGuesses} from './components/functions';
 
 function App() {
   const [component, setComponents] = useState(["here is component 1", "here is component 2"])
