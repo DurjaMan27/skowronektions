@@ -26,7 +26,7 @@ function findBlock(name) {
     /**
      * finds the index of the block that matches the parameter name
      */
-    for(index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
+    for(let index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
         if(gameboardItems[index].name === name) {
             return index;
         }
@@ -53,7 +53,7 @@ function deselectAll() {
     /**
      * unselects all the blocks, setting the selected parameter of each index to 0
      */
-    for(index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
+    for(let index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
         gameboardItems[index].selected = false;
     }
 }
@@ -62,8 +62,8 @@ function countSelectedItems() {
     /**
      * returns the number of selected items in the list (min = 0, max = 4)
      */
-    sum = 0;
-    for(index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
+    let sum = 0;
+    for(let index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
         if(gameboardItems[index].selected) {
             sum++;
         }
@@ -73,9 +73,9 @@ function countSelectedItems() {
 }
 
 function submit() {
-    currGuess = new Set();
-    indices = []
-    for(index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
+    let currGuess = new Set();
+    let indices = []
+    for(let index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
         if(gameboardItems[index].selected) {
             currGuess.add(gameboardItems[index].name);
             indices.push(index);
@@ -91,8 +91,8 @@ function submit() {
         // indices.forEach()
 
         // iterates through each of the selected items (index) and checks against the first selected item to ensure that they are all of the same group
-        index = 1
-        correct = true
+        let index = 1
+        let correct = true
         while(index < 4) {
             gameboardItems[indices[index]]["group"] === gameboardItems[indices[0]]["group"] ? index++ : correct = false;
         }
@@ -108,14 +108,14 @@ function submit() {
 
 function correctGuess() {
     // add guessed values to front of the list and set their guessed values to right
-    for(index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
+    for(let index = 0; index < MAX_GAMEBOARD_ITEMS; index++) {
         if(gameboardItems[index].selected) {
 
-            removedValue = gameboardItems.splice(index,1);
+            let removedValue = gameboardItems.splice(index,1);
             gameboardItems.unshift(removedValue);
 
-            gameboardItems[0].correct = True;
-            gameboardItems[0].selected = False;
+            gameboardItems[0].correct = true;
+            gameboardItems[0].selected = false;
         }
     }
 }
@@ -149,3 +149,4 @@ function checkPreviousGuesses(currGuess) {
 }
 
 
+export * from './functions.js';

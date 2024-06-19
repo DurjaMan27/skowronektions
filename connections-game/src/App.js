@@ -1,6 +1,9 @@
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import TestComponent from './components/testComponent';
+import GameBoard from './components/GameBoard';
+import correctGuess from './components/functions';
 
 function App() {
   const [component, setComponents] = useState(["here is component 1", "here is component 2"])
@@ -13,6 +16,7 @@ function App() {
     setGuesses(numWrongGuesses + 1);
   }
 
+  const list = ["Hello", "world", "here", "I", "am"]
 
   return (
     <>
@@ -21,6 +25,7 @@ function App() {
           <h1>This is my game</h1>
           <p>Let's build a game!</p>
           <TestComponent />
+          <GameBoard options = { list }/>
         </header>
       </div>
       <div className="main">
