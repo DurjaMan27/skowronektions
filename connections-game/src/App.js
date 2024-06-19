@@ -35,8 +35,30 @@ function App() {
   const unselectOne = (name) => {
     // will set the selected parameter to false for a certain guess
   }
-  const submit = () => {
 
+  const [previousGuesses, setPreviousGuesses] = useState([])
+  const submit = () => {
+    // submits the guess
+    // checks previous guesses to see if it already exists
+      // if yes, returns a message that guess has already been made and does nothing
+      // if no, adds guess to previousGuesses
+    // checks if guess is correct or not
+  }
+  const correctGuess = () => {
+    // moves the correct guesses to the front of the list and sets their guessed value to right
+  }
+  const wrongGuess = () => {
+    setGuesses(numWrongGuesses + 1);
+    checkGameOver();
+  }
+
+  const checkGameOver = () => {
+    if(numWrongGuesses >= 4) {
+      // bring up a game over page, along with a button to play again
+    }
+  }
+  const showCorrect = () => {
+    // maybe later
   }
 
   const list = ["Hello", "world", "here", "I", "am"]
@@ -52,6 +74,11 @@ function App() {
         </header>
       </div>
       <div className="main">
+        <div className="buttons">
+          <button onClick={console.log("shuffling")}>Shuffle</button>
+          <button onClick={console.log("Deselecting")}>Unselect All</button>
+          <button onClick={console.log("submitting")}>Submit</button>
+        </div>
         <div className="Game-area">
           <p>This content is below the header</p>
           <div className="Gameboard">
@@ -60,6 +87,9 @@ function App() {
             <div className="list-item"><p>This is third block</p></div>
             <div className="list-item"><p>This is fourth block</p></div>
           </div>
+        </div>
+        <div className="mistakes">
+          <h3>Mistakes Remaining</h3>
         </div>
       </div>
     </>
