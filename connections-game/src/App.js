@@ -3,21 +3,62 @@ import logo from './logo.svg';
 import './App.css';
 import TestComponent from './components/testComponent';
 import GameBoard from './components/GameBoard';
+import StartScreen from './components/StartScreen';
+import ReplayScreen from './components/ReplayScreen';
+import Mistakes from './components/Mistakes';
+import Buttons from './components/Buttons';
 import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedItems, submit, correctGuess, wrongGuess, checkPreviousGuesses} from './components/functions';
 
 function App() {
-  const [component, setComponents] = useState(["here is component 1", "here is component 2"])
-    // component --> the current state value
-    // setComponents --> a function that updates the state value
-    // values inside useState --> the initial value of the state, which can be of any type
 
-  const trythis = ( { comp }) => {
-    console.log(`This is the component right here : ${comp}`);
+  // counts number of mistakes (default 0, max 4)
+  const [totalMistakes, setMistakes] = useState(0);
+  const incMistakes = () => {
+    setMistakes(totalMistakes + 1);
+    console.log(totalMistakes);
+  };
+  useEffect(() => {
+    if(totalMistakes >= 4) {
+      console.log("game over");
+    }
+  }, [totalMistakes]);
+
+  // number of selected blocks
+  const [currentSelected, setSelected] = useState([]);
+  const changedSelected = (add, name) => {
+    if(add) {
+      if(currentSelected.length === 4) {
+        console.log("you have already selected 4 choices");
+      } else {
+        setSelected([...currentSelected, name]);
+      }
+    } else {
+      setSelected(currentSelected.filter(item => item != name));
+    }
   }
+  useEffect(() => {
+    if(currentSelected.length === 4) {
+      console.log("time to lock everything down");
+    }
+  }, [currentSelected])
 
-  const bgColor = ["black", "black", "black", "black"];
 
-  const list = ["HELLO", "WORLD", "HERE", "LONGBOAT", "AM", "THIS", "DECOR", "SOMETHING", "THAT", "DOES", "SUITABLE", "COOL", "NICE", "LOVING", "BRILLIANT", "THANKS"]
+  let actualList = [{name: "Ravens", group: 1, guessed: false},
+                      {name: "Harbaugh", group: 2, guessed: false},
+                      {name: "M&T", group: 3, guessed: false},
+                      {name: "Dallas", group: 4, guessed: false},
+                      {name: "Steelers", group: 1, guessed: false},
+                      {name: "Reid", group: 2, guessed: false},
+                      {name: "CenturyLink", group: 3, guessed: false},
+                      {name: "New York", group: 4, guessed: false},
+                      {name: "Browns", group: 1, guessed: false},
+                      {name: "McDaniel", group: 2, guessed: false},
+                      {name: "SoFi", group: 3, guessed: false},
+                      {name: "Philadelphia", group: 4, guessed: false},
+                      {name: "Bengals", group: 1, guessed: false},
+                      {name: "Payton", group: 2, guessed: false},
+                      {name: "AT&T", group: 3, guessed: false},
+                      {name: "Washington", group: 4, guessed: false},];
 
   return (
     <>
@@ -27,40 +68,18 @@ function App() {
         </header>
       </div>
       <div className="main">
+        <StartScreen />
+        <ReplayScreen />
         <div className="buttons">
-          <button onClick={() => trythis(bgColor[0])}>Shuffle</button>
-          <button>Unselect All</button>
-          <button>Submit</button>
+          <Buttons shuffle={() => console.log("shuffle")} deselect={() => console.log("deselect")} submit={() => console.log("submit")}/>
         </div>
         <div className="Game-area">
           <div className="Gameboard">
-            <GameBoard options={list} />
+            <GameBoard selected={currentSelected} options={actualList} />
           </div>
         </div>
         <div className="mistakes">
-          <h1>Mistakes</h1>
-          <div className="mistakeCircles">
-            <div id="mistake0" style={{
-                                  width: '5px',
-                                  height: '5px',
-                                  backgroundColor: bgColor[0],
-                                }}></div>
-            <div id="mistake1" style={{
-                                  width: '5px',
-                                  height: '5px',
-                                  backgroundColor: bgColor[1],
-                                }}></div>
-            <div id="mistake2" style={{
-                                  width: '5px',
-                                  height: '5px',
-                                  backgroundColor: bgColor[2],
-                                }}></div>
-            <div id="mistake3" style={{
-                                  width: '5px',
-                                  height: '5px',
-                                  backgroundColor: bgColor[3],
-                                }}></div>
-          </div>
+          <Mistakes totalMistakes = { totalMistakes }/>
         </div>
       </div>
     </>
@@ -68,3 +87,5 @@ function App() {
 }
 
 export default App;
+
+// const list = ["HELLO", "WORLD", "HERE", "LONGBOAT", "AM", "THIS", "DECOR", "SOMETHING", "THAT", "DOES", "SUITABLE", "COOL", "NICE", "LOVING", "BRILLIANT", "THANKS"]

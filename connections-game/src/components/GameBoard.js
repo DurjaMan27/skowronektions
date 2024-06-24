@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const GameBoard = ( { options } ) => {
-  const [message, setMessage] = useState("Check it out");
+const GameBoard = ( { selected, options } ) => {
 
+  const [clickable, setClickable] = useState(true);
+  const toggleClickable = ( click ) => {
+    setClickable(click);
+  };
+
+  useEffect(() => {
+    if(selected.length === 4) {
+      toggleClickable( false );
+    } else {
+      toggleClickable( true );
+    }
+  }, [selected]);
+
+  useEffect(() => {
+
+  }, [options]);
+  /*
   const printoptions = () => {
     options.forEach(option => {
       console.log(option)
     });
-  };
+  };*/
 
   return (
     <>
       {options.map((item, index) => (
         <div key={index} className={"options"}>
-          {item}
+          {item.name}
         </div>
       ))}
     </>
