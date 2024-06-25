@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ReplayScreen = () => {
+const ReplayScreen = ( { stage, replay }) => {
     return (
         <>
         </>

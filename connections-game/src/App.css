@@ -17,11 +17,21 @@
   background-color: #282c34;
   height: 20%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   text-align: left;
-  padding-left: 50px;
+  padding-left: 5%;
   font-size: calc(10px + 2vmin);
   color: beige;
+  border: 1.4px black solid;
+}
+
+.inspiration {
+  width: 28%;
+  text-align: center;
+  float: right;
+
+  padding-right: 3%;
 }
 
 .main {
@@ -70,6 +80,36 @@
   border: 1px black solid;
 }
 
+.beginning {
+  text-align: center;
+  background-color:#282c34;
+  height: 80%;
+  width: 80%;
+  border: 5px beige solid;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.beginning > button {
+  margin: 15px;
+  padding: 30px;
+  max-width: 60%;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  border-radius: 25px;
+  border: 2px lightgrey solid;
+  background-color: beige;
+}
+
+.beginning > button:hover {
+  cursor: pointer;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+}
+
 .Gameboard {
   height: 100%;
   width: 100%;
@@ -102,6 +142,10 @@
   justify-content: center;
 }
 
+.options:hover {
+  cursor: pointer;
+}
+
 .mistakes {
   height: 100%;
   width: 22.5%;
@@ -127,6 +171,8 @@
   padding: 15px;
   margin: 10px;
   border-radius: 20px;
+  width: 5px;
+  height: 5px;
 }
 
 @keyframes App-logo-spin {
