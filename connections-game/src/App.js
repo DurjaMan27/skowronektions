@@ -11,34 +11,31 @@ import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedIte
 
 function App() {
 
-  const [options, setOptions] = useState([{name: "Ravens", group: 1, guessed: false},
-                                          {name: "Harbaugh", group: 2, guessed: false},
-                                          {name: "M&T", group: 3, guessed: false},
-                                          {name: "Dallas", group: 4, guessed: false},
-                                          {name: "Steelers", group: 1, guessed: false},
-                                          {name: "Reid", group: 2, guessed: false},
-                                          {name: "CenturyLink", group: 3, guessed: false},
-                                          {name: "New York", group: 4, guessed: false},
-                                          {name: "Browns", group: 1, guessed: false},
-                                          {name: "McDaniel", group: 2, guessed: false},
-                                          {name: "SoFi", group: 3, guessed: false},
-                                          {name: "Philadelphia", group: 4, guessed: false},
-                                          {name: "Bengals", group: 1, guessed: false},
-                                          {name: "Payton", group: 2, guessed: false},
-                                          {name: "AT&T", group: 3, guessed: false},
-                                          {name: "Washington", group: 4, guessed: false}]
+  const _ = require('lodash');
+
+  const [options, setOptions] = useState([{name: "Ravens", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Harbaugh", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "M&T", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Dallas", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Steelers", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Reid", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "CenturyLink", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "New York", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Browns", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "McDaniel", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "SoFi", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Philadelphia", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Bengals", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Payton", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "AT&T", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Washington", groupName: "NFC East", group: 4, guessed: false}]
                                         );
 
   // counts number of mistakes (default 0, max 4)
-  const [totalMistakes, setMistakes] = useState(0);
+  const [totalMistakes, setMistakes] = useState(-1);
   const incMistakes = () => {
     setMistakes((prevMistakes) => prevMistakes + 1);
   };
-  useEffect(() => {
-    if(totalMistakes >= 4) {
-      console.log("game over");
-    }
-  }, [totalMistakes]);
 
   // number of selected blocks
   const [currentSelected, setSelected] = useState(new Set());
@@ -60,11 +57,19 @@ function App() {
   // keeps track of previous guesses
   const [previousGuesses, setPrevGuesses] = useState(new Set());
   const addGuess = () => {
-    setPrevGuesses((prevGuesses) => new Set(prevGuesses).add(currentSelected));
-    console.log(previousGuesses);
+    let temp = new Set();
+    previousGuesses.forEach(set => {
+      temp.add(set)
+    });
+    let newguesses = new Set();
+    currentSelected.forEach(guess => {
+      newguesses.add(guess);
+    })
+    temp.add(newguesses);
+    setPrevGuesses(temp);
   }
 
-  const [correctGuesses, setCorrectGuesses] = useState(0);
+  const [correctGuesses, setCorrectGuesses] = useState(-1);
   const incCorrect = () => {
     setCorrectGuesses((prevCorrect) => prevCorrect + 1);
   }
@@ -83,7 +88,12 @@ function App() {
   }
 
   const submit = () => {
-    if(previousGuesses.has(currentSelected)) {
+    let equal = false;
+    setTimeout(() => {}, 500)
+    previousGuesses.forEach(guess => {
+      if(_.isEqual(guess, currentSelected)) {equal = true;}
+    })
+    if(equal) {
       alert("already guessed...");
     } else {
       addGuess();
@@ -92,12 +102,9 @@ function App() {
       if(currGroup === -1) {
         incMistakes();
       } else {
-        console.log("all good!");
         incCorrect();
       }
     }
-
-    console.log(options);
   };
 
   const checkGuesses = () => {
@@ -133,37 +140,51 @@ function App() {
     setOptions(temp);
   }, [correctGuesses])
 
-  const [gameStage, setGameStage] = useState("playing");
+  const [gameStage, setGameStage] = useState("start");
   const getVisibility = (component) => {
-    if((component === "startscreen" || component === "replayScreen") && gameStage === "playing") {
-      return "hidden";
-    } else if((component === "gameboard" || component === "buttons" || component === "mistakes") && gameStage !== "playing") {
-      return "hidden";
-    } else {
-      return "visible";
+    if(component === "startscreen") {
+      if(gameStage === "start") {
+        return "visible";
+      }
+    } else if(component === "gameboard" || component === "mistakes" || component === "buttons") {
+      if(gameStage === "playing") {
+        return "visible";
+      }/* else if( (gameStage === "won" || gameStage === "lost" ) && component === "gameboard") {
+        return "visible";
+      }*/
+    } else if(component === "replayscreen") {
+      if(gameStage === "lost" || gameStage === "won") {
+        return "visible";
+      }
     }
+    return "hidden";
   }
-  // useEffect(() => {
-  //   if(correctGuesses === 0 && totalMistakes === 0) {
-  //     setGameStage("start");
-  //   } else if(totalMistakes === 4) {
-  //     setGameStage("lost");
-  //   } else if(correctGuesses === 4) {
-  //     setGameStage("won");
-  //   }
-  // }, [correctGuesses, totalMistakes])
-
   useEffect(() => {
-    if(gameStage === "start") {
-      // show start screen
-    } else if(gameStage === "lost") {
-      // show lost and replay screen
-    } else if(gameStage === "won") {
-      // show won and replay screen
-    } else if(gameStage === "playing") {
-      // show gameboard screen
+    if(correctGuesses === -1 && totalMistakes === -1) {
+      setGameStage("start");
+    } else if(correctGuesses === 0 && totalMistakes === 0) {
+      setGameStage("playing");
+    } else if(totalMistakes === 4) {
+      setTimeout(() => {}, 500);
+
+      setGameStage("lost");
+    } else if(correctGuesses === 4) {
+      setGameStage("won");
     }
-  }, [gameStage])
+  }, [correctGuesses, totalMistakes])
+
+  const startgame = () => {
+    options.forEach(option => {
+      option.guessed = false;
+    })
+
+    // generate a new set of options
+
+    setCorrectGuesses(0);
+    setMistakes(0);
+    setPrevGuesses(new Set());
+    setSelected(new Set());
+  }
 
   return (
     <>
@@ -171,7 +192,7 @@ function App() {
         <header className="App-header">
           <h1>Skowronektions</h1>
           <div className="inspiration">
-            <h4>Inspired by NYT's "Connections".</h4>
+            <h4>Inspired by NYT's "Connections"</h4>
           </div>
         </header>
       </div>
@@ -180,21 +201,15 @@ function App() {
           <Buttons selected={currentSelected} shuffle={shuffle} deselect={deselectAll} submit={submit}/>
         </div>
         <div className="Game-area">
-          <StartScreen stage={gameStage} visibility={getVisibility("startscreen")} startGame={() => console.log("start game!")}/>
-          <ReplayScreen stage={gameStage} replay={() => console.log("replay")}/>
-          <GameBoard visibility={getVisibility("gameboard")} selected={currentSelected} options={options} selectFunc={changedSelected}/>
+          <StartScreen visibility={getVisibility("startscreen")} stage={gameStage} startGame={startgame}/>
+          <ReplayScreen options={options} visibility={getVisibility("replayscreen")} stage={gameStage} replay={startgame}/>
+          <GameBoard correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
         </div>
-        <div className="mistakes" style={{visibility: getVisibility("mistakes")}}>
+        <div className="mistakes" stage={gameStage} style={{visibility: getVisibility("mistakes")}}>
           <Mistakes totalMistakes={totalMistakes}/>
         </div>
       </div>
     </>
-  );
-
-  return (
-    <div className="Game-area">
-
-    </div>
   );
 }
 

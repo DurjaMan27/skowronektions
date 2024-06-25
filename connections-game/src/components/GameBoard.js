@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
-const GameBoard = ( { visibility, selected, options, selectFunc } ) => {
+const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
 
   const UNSELECTED = "1px beige solid";
   const SELECTED = "5px beige solid";
-  const COLORARR = ["5px blue solid", "5px green solid", "5px yellow solid", "5px red solid"]
+  const COLORARR = ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"];
   const returnColor = (groupNum) => {
     return COLORARR[groupNum - 1];
   }
@@ -19,6 +19,24 @@ const GameBoard = ( { visibility, selected, options, selectFunc } ) => {
     });
     setBorder(temp);
   }, []);
+
+  useEffect(() => {
+    if(correct === 0 && mistakes === 0) {
+      let temp = {};
+      options.forEach((option) => {
+        temp[option.name] = UNSELECTED
+      });
+      setBorder(temp);
+      setClickable(true);
+    } else if(stage === "won" || stage === "lost") {
+      let temp = {};
+      options.forEach((option) => {
+        temp[option.name] = returnColor(option.group);
+      });
+      setBorder(temp);
+      setClickable(false);
+    }
+  }, [stage])
 
   useEffect(() => {
     let temp = {...border};
@@ -71,9 +89,17 @@ const GameBoard = ( { visibility, selected, options, selectFunc } ) => {
     }
   }
 
+  const [animate, setAnimate] = useState(false);
+  useEffect(() => {
+    if(mistakes > 0) {
+      setAnimate(true);
+      setTimeout(() => {setAnimate(false)}, 2500)
+    }
+  }, [mistakes])
+
   return (
     <>
-      <div className="Gameboard" style={{visibility: visibility}}>
+      <div className={`Gameboard${animate ? 'Animate' : ''}`} style={{visibility: visibility}}>
         {options.map((item, index) => (
           <div onClick={() => clickOrUnclick(item.name)} key={index} className={"options"} style={{border: border[item.name]}}>
             {item.name}

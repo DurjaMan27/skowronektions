@@ -77,19 +77,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px black solid;
+
+  position: relative;
 }
 
 .beginning {
   text-align: center;
   background-color:#282c34;
-  height: 80%;
-  width: 80%;
   border: 5px beige solid;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
+  justify-content: center;
+
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
 }
 
 .beginning > button {
@@ -110,17 +117,53 @@
   box-shadow: 0 8px 12px rgba(0,0,0,0.2);
 }
 
+@keyframes error {
+  0% { left: 3%; }
+  10% { left: 6%; }
+  20% { left: 3%; }
+  30% { left: 0%; }
+  40% { left: 3%; }
+  50% { left: 6%; }
+  60% { left: 3%; }
+  70% { left: 0%; }
+  80% { left: 3%; }
+  9% { left: 6%; }
+  100% { left: 3%; }
+}
+
 .Gameboard {
-  height: 100%;
-  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin: 5%;
-  padding-left: 4%;
+  gap: 5px;
+  padding-left: 5%;
+
+  position: absolute;
+  top: 0;
+  left: 3%;
+  width: 90%;
+  height: 100%;
+}
+
+.GameboardAnimate {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding-left: 5%;
+
+  position: absolute;
+  top: 0;
+  left: 3%;
+  width: 90%;
+  height: 100%;
+
+  animation-name: error;
+  animation-duration: 0.5s;
 }
 
 .options {

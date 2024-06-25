@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Mistakes = ( {totalMistakes} ) => {
+const Mistakes = ( { stage, totalMistakes } ) => {
   const [bgColor, setBgColor] = useState(["black", "black", "black", "black"]);
 
   // this useEffect will run every time totalMistakes (a prop from the root component) is changed
@@ -10,6 +10,11 @@ const Mistakes = ( {totalMistakes} ) => {
     if(totalMistakes > 0) {
       temp[totalMistakes - 1] = "beige";
       setBgColor(temp);
+    } else if(totalMistakes === 0) {
+      for(let i = 0; i < 4; i++) {
+        temp[i] = "black";
+        setBgColor(temp);
+      }
     }
   }, [totalMistakes]);
 
