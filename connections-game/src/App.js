@@ -11,7 +11,24 @@ function App() {
 
   const _ = require('lodash');
 
-  const [options, setOptions] = useState(sequence("hard"));
+  //const [options, setOptions] = useState(sequence("easy"));
+  const [options, setOptions] = useState([{name: "Ravens", group: 1, guessed: false},
+                                          {name: "Harbaugh", group: 2, guessed: false},
+                                          {name: "M&T", group: 3, guessed: false},
+                                          {name: "Dallas", group: 4, guessed: false},
+                                          {name: "Steelers", group: 1, guessed: false},
+                                          {name: "Reid", group: 2, guessed: false},
+                                          {name: "CenturyLink", group: 3, guessed: false},
+                                          {name: "New York", group: 4, guessed: false},
+                                          {name: "Browns", group: 1, guessed: false},
+                                          {name: "McDaniel", group: 2, guessed: false},
+                                          {name: "SoFi", group: 3, guessed: false},
+                                          {name: "Philadelphia", group: 4, guessed: false},
+                                          {name: "Bengals", group: 1, guessed: false},
+                                          {name: "Payton", group: 2, guessed: false},
+                                          {name: "AT&T", group: 3, guessed: false},
+                                          {name: "Washington", group: 4, guessed: false}]
+                                        );
 
   // counts number of mistakes (default 0, max 4)
   const [totalMistakes, setMistakes] = useState(-1);
@@ -60,7 +77,7 @@ function App() {
     let currentIndex = options.length;
     let temp = [...options]
     let FLOOR = 0;
-    if(correctGuesses >= 0) {
+    if(correctGuesses > 0) {
       FLOOR  = correctGuesses * 4;
     }
 
@@ -109,7 +126,6 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("Use effect on correct guesses");
     if(correctGuesses > 0) {
       let temp = [];
       let groupsSolved = new Set();
@@ -165,7 +181,6 @@ function App() {
     return "hidden";
   }
   useEffect(() => {
-    console.log("Use effect on correct guesses and totalMistakes together");
     if(correctGuesses === -1 && totalMistakes === -1) {
       setGameStage("start");
     } else if(correctGuesses === 0 && totalMistakes === 0) {
@@ -183,15 +198,10 @@ function App() {
       option.guessed = false;
     })
 
-    let test = sequence("hard");
-    setOptions(test);
-
     setCorrectGuesses(0);
     setMistakes(0);
     setPrevGuesses(new Set());
     setSelected(new Set());
-
-    shuffle();
   }
 
   return (
@@ -211,7 +221,7 @@ function App() {
         <div className="Game-area">
           <StartScreen visibility={getVisibility("startscreen")} stage={gameStage} startGame={startgame}/>
           <ReplayScreen options={options} visibility={getVisibility("replayscreen")} stage={gameStage} replay={startgame}/>
-          <GameBoard correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
+          <GameBoard shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
         </div>
         <div className="mistakes" stage={gameStage} style={{visibility: getVisibility("mistakes")}}>
           <Mistakes totalMistakes={totalMistakes}/>
@@ -222,3 +232,21 @@ function App() {
 }
 
 export default App;
+
+// const [options, setOptions] = useState([{name: "Ravens", group: 1, guessed: false},
+//                                           {name: "Harbaugh", group: 2, guessed: false},
+//                                           {name: "M&T", group: 3, guessed: false},
+//                                           {name: "Dallas", group: 4, guessed: false},
+//                                           {name: "Steelers", group: 1, guessed: false},
+//                                           {name: "Reid", group: 2, guessed: false},
+//                                           {name: "CenturyLink", group: 3, guessed: false},
+//                                           {name: "New York", group: 4, guessed: false},
+//                                           {name: "Browns", group: 1, guessed: false},
+//                                           {name: "McDaniel", group: 2, guessed: false},
+//                                           {name: "SoFi", group: 3, guessed: false},
+//                                           {name: "Philadelphia", group: 4, guessed: false},
+//                                           {name: "Bengals", group: 1, guessed: false},
+//                                           {name: "Payton", group: 2, guessed: false},
+//                                           {name: "AT&T", group: 3, guessed: false},
+//                                           {name: "Washington", group: 4, guessed: false}]
+//                                         );

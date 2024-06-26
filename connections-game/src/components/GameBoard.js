@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
+const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
 
   const UNSELECTED = "1px beige solid";
   const SELECTED = "5px beige solid";
@@ -24,6 +24,9 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
   useEffect(() => {
     console.log("Use effect on game stage");
     if(correct === 0 && mistakes === 0) {
+      if(stage === "playing") {
+        shuffle();
+      }
       let temp = {};
       options.forEach((option) => {
         temp[option.name] = UNSELECTED
@@ -116,3 +119,6 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
 };
 
 export default GameBoard;
+
+// <div className={`Gameboard${animate ? 'Animate' : ''}`} style={{visibility: visibility}}>
+// <div className="Gameboard" style={{visibility:visibility}}>
