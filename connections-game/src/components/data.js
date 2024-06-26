@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 // NFL teams with no Super Bowl wins
 const TEAMS_NO_SUPER_BOWL_WINS = [["Teams with 0 Super Bowl Wins"],
 	["Bengals",
@@ -239,7 +237,213 @@ const ONE_TEAM_PLAYERS = [["Only-One-Team Players"],
 	"Ronnie Lott"]
 ];
 
-const LIST_NAMES = [
+const EASY_MVPS = [["MVP Winners"],
+	["Lamar Jackson",
+	"Patrick Mahomes",
+	"Aaron Rodgers",
+	"Cam Newton",
+	"Adrian Peterson",
+	"LaDainian Tomlinson",
+	"Shaun Alexander",
+	"Steve McNair"]
+];
+
+const AFC_TEAMS = [["AFC Teams"],
+	["Ravens",
+	"Bills",
+	"Bengals",
+	"Browns",
+	"Broncos",
+	"Texans",
+	"Colts",
+	"Jaguars",
+	"Chiefs",
+	"Raiders",
+	"Chargers",
+	"Dolphins",
+	"Patriots",
+	"Jets",
+	"Steelers",
+	"Titans"
+	]
+];
+
+const NFC_TEAMS = [["NFC Teams"],
+	["Cardinals",
+	"Falcons",
+	"Panthers",
+	"Bears",
+	"Cowboys",
+	"Lions",
+	"Packers",
+	"Rams",
+	"Vikings",
+	"Saints",
+	"Giants",
+	"Eagles",
+	"49ers",
+	"Seahawks",
+	"Buccaneers",
+	"Commanders"]
+];
+
+const CURRENT_BACKUP_QBS = [["Current Backup Quarterbacks"],
+	["Jacoby Brisset",
+	"Justin Fields",
+	"Jimmy Garoppolo",
+	"Jameis Winston",
+	"Jake Browning",
+	"Joe Flacco",
+	"Michael Penix Jr.",
+	"Sam Darnold",
+	"Sam Howell",
+	"Andy Dalton",
+	"Mac Jones",
+	"Tyrod Taylor",
+	"Kenny Pickett",
+	"Carson Wentz",
+	"Josh Dobbs",
+	"Drew Lock",
+	"Tyson Bagent",
+	"Cooper Rush",
+	"Mason Rudolph",
+	"Desmond Ridder",
+	"Mike White",
+	"Easton Stick",
+	"Marcus Mariota",
+	"Josh Johnson",
+	"Mitchell Trubisky",
+	"Case Keenum",
+	"Aidan O'Connell"]
+];
+
+const CURRENT_WRS = [["Current Wide Receivers"],
+	["Davante Adams",
+	"Justin Jefferson",
+	"Tyreek Hill",
+	"Ja'Marr Chase",
+	"Stefon Diggs",
+	"Cooper Kupp",
+	"Puka Nacua",
+	"AJ Brown",
+	"CeeDee Lamb",
+	"Deebo Samuel",
+	"Brandon Aiyuk",
+	"Terry McLaurin",
+	"Zay Flowers"
+	]
+]
+
+const QBS_FIRST_ROUND = [["First-Round QBs"],
+	["Sam Bradford",
+	"Tim Tebow",
+	"Cam Newton",
+	"Jake Locker",
+	"Blaine Gabbert",
+	"Christian Ponder",
+	"Andrew Luck",
+	"Robert Griffin III",
+	"Ryan Tannehill",
+	"Brandon Weeden",
+	"EJ Manuel",
+	"Blake Bortles",
+	"Johnny Manziel",
+	"Teddy Bridgewater",
+	"Jameis Winston",
+	"Marcus Mariota",
+	"Jared Goff",
+	"Carson Wentz",
+	"Paxton Lynch",
+	"Mitchell Trubisky",
+	"Patrick Mahomes",
+	"Deshaun Watson",
+	"Baker Mayfield",
+	"Sam Darnold",
+	"Josh Allen",
+	"Josh Rosen",
+	"Lamar Jackson",
+	"Kyler Murray",
+	"Daniel Jones",
+	"Dwayne Haskins",
+	"Joe Burrow",
+	"Tua Tagovailoa",
+	"Justin Herbert",
+	"Jordan Love",
+	"Trevor Lawrence",
+	"Zach Wilson",
+	"Trey Lance",
+	"Justin Fields",
+	"Mac Jones",
+	"Kenny Pickett",
+	"Bryce Young",
+	"C.J. Stroud",
+	"Anthony Richardson"]
+];
+
+const OTS_FIRST_ROUND = [["First-Round OTs"],
+	["Trent Williams",
+	"Russell Okung",
+	"Anthony Davis",
+	"Bryan Bulaga",
+	"Tyron Smith",
+	"Nate Solder",
+	"Anthony Castonzo",
+	"James Carpenter",
+	"Derek Sherrod",
+	"Matt Kalil",
+	"Riley Reiff",
+	"Eric Fisher",
+	"Luke Joeckel",
+	"Lane Johnson",
+	"D.J. Fluker",
+	"Justin Pugh",
+	"Greg Robinson",
+	"Jake Matthews",
+	"Taylor Lewan",
+	"Ja'Wuan James",
+	"Ereck Flowers",
+	"Andrus Peat",
+	"D.J. Humphries",
+	"Cedric Ogbuehi",
+	"Laremy Tunsil",
+	"Jack Conklin",
+	"Ronnie Stanley",
+	"Taylor Decker",
+	"Germain Ifedi",
+	"Garett Bolles",
+	"Ryan Ramczyk",
+	"Mike McGlinchey",
+	"Kolton Miller",
+	"Jonah Williams",
+	"Andre Dillard",
+	"Tytus Howard",
+	"Kaleb McGary",
+	"Andrew Thomas",
+	"Jedrick Wills",
+	"Mekhi Becton",
+	"Tristan Wirfs",
+	"Austin Jackson",
+	"Isaiah Wilson",
+	"Penei Sewell",
+	"Rashawn Slater",
+	"Alex Leatherwood",
+	"Christian Darrisaw",
+	"Ikem Ekwonu",
+	"Evan Neal",
+	"Charles Cross",
+	"Trevor Penning",
+	"Paris Johnson Jr."]
+];
+
+const MIRACLE_PLAYS = [["Miracle/Famous Play Names"],
+	["Mile High",
+	"Minneapolis",
+	"Meadowlands",
+	"Miami",
+	"Music City"]
+]
+
+const ALL_LIST = [
 	TEAMS_NO_SUPER_BOWL_WINS,
 	NFL_STADIUMS,
 	DEFENSIVE_PLAYERS_OF_THE_YEAR,
@@ -252,19 +456,47 @@ const LIST_NAMES = [
 	NFL_SIBLINGS,
 	MULTIPLE_MVP_WINNERS,
 	TEAMS_NEVER_CHANGED_CITY,
-	TEAMS_BIRD_MASCOTS,
 	COACHES_MULTIPLE_SUPER_BOWL_WINS,
 	TWO_WAY_PLAYERS,
 	HEISMAN_NFL_MVP_WINNERS,
 	PLAYERS_TO_COACHES,
 	RETRACTABLE_ROOF_TEAMS,
-	ONE_TEAM_PLAYERS
+	ONE_TEAM_PLAYERS,
+	CURRENT_BACKUP_QBS,
+	TEAMS_BIRD_MASCOTS,
+	CURRENT_WRS,
+	QBS_FIRST_ROUND,
+	OTS_FIRST_ROUND,
+	MIRACLE_PLAYS,
+	AFC_TEAMS,
+	NFC_TEAMS
 ];
 
-const selectLists = () => {
+const EASY_LIST = [
+	NFL_STADIUMS,
+	NFL_SIBLINGS,
+	TEAMS_BIRD_MASCOTS,
+	EASY_MVPS,
+	CURRENT_BACKUP_QBS,
+	CURRENT_WRS,
+	QBS_FIRST_ROUND,
+	OTS_FIRST_ROUND,
+	AFC_TEAMS,
+	NFC_TEAMS
+]
+
+const selectLists = (difficulty) => {
 	let groups = [];
+
+	let list = [];
+	if(difficulty === "easy") {
+		list = EASY_LIST;
+	} else if (difficulty === "hard") {
+		list = ALL_LIST;
+	}
+
 	while(groups.length < 4) {
-		let potentialNewGroup = LIST_NAMES[Math.floor(Math.random() * LIST_NAMES.length)];
+		let potentialNewGroup = list[Math.floor(Math.random() * list.length)];
 		if(!groups.includes(potentialNewGroup)) {
 			groups.push(potentialNewGroup);
 		}
@@ -291,10 +523,8 @@ const pickValues = (groups) => {
 	return options;
 }
 
-	const sequence = () => {
-		return pickValues(selectLists());
+	const sequence = (difficulty) => {
+		return pickValues(selectLists(difficulty));
 	}
-
-let tempOptions = pickValues(selectLists());
 
 export default sequence;

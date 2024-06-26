@@ -13,6 +13,7 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
   const [border, setBorder] = useState({});
 
   useEffect(() => {
+    console.log("Use effect upon activation");
     let temp = {};
     options.forEach((option) => {
       temp[option.name] = UNSELECTED
@@ -21,6 +22,7 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
   }, []);
 
   useEffect(() => {
+    console.log("Use effect on game stage");
     if(correct === 0 && mistakes === 0) {
       let temp = {};
       options.forEach((option) => {
@@ -39,6 +41,7 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
   }, [stage])
 
   useEffect(() => {
+    console.log("Use effect on options");
     let temp = {...border};
     options.forEach((option) => {
       // border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
@@ -52,6 +55,7 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
   }, [options])
 
   useEffect(() => {
+    console.log("Use effect on selected");
     if(selected.size === 0) {
       let temp = {};
       options.forEach((option) => {
@@ -91,6 +95,7 @@ const GameBoard = ( { correct, mistakes, visibility, stage, selected, options, s
 
   const [animate, setAnimate] = useState(false);
   useEffect(() => {
+    console.log("Use effect on mistakes");
     if(mistakes > 0) {
       setAnimate(true);
       setTimeout(() => {setAnimate(false)}, 2500)

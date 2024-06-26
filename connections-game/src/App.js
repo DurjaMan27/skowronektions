@@ -11,7 +11,7 @@ function App() {
 
   const _ = require('lodash');
 
-  const [options, setOptions] = useState(sequence());
+  const [options, setOptions] = useState(sequence("hard"));
 
   // counts number of mistakes (default 0, max 4)
   const [totalMistakes, setMistakes] = useState(-1);
@@ -109,6 +109,7 @@ function App() {
   }
 
   useEffect(() => {
+    console.log("Use effect on correct guesses");
     if(correctGuesses > 0) {
       let temp = [];
       let groupsSolved = new Set();
@@ -164,13 +165,13 @@ function App() {
     return "hidden";
   }
   useEffect(() => {
+    console.log("Use effect on correct guesses and totalMistakes together");
     if(correctGuesses === -1 && totalMistakes === -1) {
       setGameStage("start");
     } else if(correctGuesses === 0 && totalMistakes === 0) {
       setGameStage("playing");
     } else if(totalMistakes === 4) {
       setTimeout(() => {}, 500);
-
       setGameStage("lost");
     } else if(correctGuesses === 4) {
       setGameStage("won");
@@ -182,7 +183,7 @@ function App() {
       option.guessed = false;
     })
 
-    let test = sequence();
+    let test = sequence("hard");
     setOptions(test);
 
     setCorrectGuesses(0);
@@ -190,8 +191,6 @@ function App() {
     setPrevGuesses(new Set());
     setSelected(new Set());
 
-    console.log(test);
-    console.log(options);
     shuffle();
   }
 
@@ -223,23 +222,3 @@ function App() {
 }
 
 export default App;
-
-// const list = ["HELLO", "WORLD", "HERE", "LONGBOAT", "AM", "THIS", "DECOR", "SOMETHING", "THAT", "DOES", "SUITABLE", "COOL", "NICE", "LOVING", "BRILLIANT", "THANKS"]
-
-/*const [options, setOptions] = useState([{name: "Ravens", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Harbaugh", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "M&T", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Dallas", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Steelers", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Reid", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "CenturyLink", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "New York", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Browns", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "McDaniel", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "SoFi", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Philadelphia", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Bengals", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Payton", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "AT&T", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Washington", groupName: "NFC East", group: 4, guessed: false}]
-                                        );*/
