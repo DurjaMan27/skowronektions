@@ -242,7 +242,7 @@ function App() {
     <>
       <div className="App">
         <header className="App-header">
-          <h1>Skowronektions</h1>
+          <h1>Completions</h1>
           <div className="inspiration">
             <h4>Inspired by NYT's "Connections"</h4>
           </div>
