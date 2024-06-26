@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import TestComponent from './components/testComponent';
 import GameBoard from './components/GameBoard';
 import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
 import Buttons from './components/Buttons';
 import sequence from './components/data';
-import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedItems, submit, correctGuess, wrongGuess, checkPreviousGuesses} from './components/functions';
 
 function App() {
 
