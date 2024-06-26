@@ -5,13 +5,11 @@ import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
 import Buttons from './components/Buttons';
-import { EASY_LIST, ALL_LIST} from './components/data';
 
 function App() {
 
   const _ = require('lodash');
 
-  //const [options, setOptions] = useState(sequence("easy"));
   const [options, setOptions] = useState([{name: "Ravens", group: 1, guessed: false}]);
   const loadData = async (difficulty) => {
     if(difficulty === "easy") {
@@ -266,21 +264,3 @@ function App() {
 }
 
 export default App;
-
-// const [options, setOptions] = useState([{name: "Ravens", group: 1, guessed: false},
-//                                           {name: "Harbaugh", group: 2, guessed: false},
-//                                           {name: "M&T", group: 3, guessed: false},
-//                                           {name: "Dallas", group: 4, guessed: false},
-//                                           {name: "Steelers", group: 1, guessed: false},
-//                                           {name: "Reid", group: 2, guessed: false},
-//                                           {name: "CenturyLink", group: 3, guessed: false},
-//                                           {name: "New York", group: 4, guessed: false},
-//                                           {name: "Browns", group: 1, guessed: false},
-//                                           {name: "McDaniel", group: 2, guessed: false},
-//                                           {name: "SoFi", group: 3, guessed: false},
-//                                           {name: "Philadelphia", group: 4, guessed: false},
-//                                           {name: "Bengals", group: 1, guessed: false},
-//                                           {name: "Payton", group: 2, guessed: false},
-//                                           {name: "AT&T", group: 3, guessed: false},
-//                                           {name: "Washington", group: 4, guessed: false}]
-//                                         );

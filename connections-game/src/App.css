@@ -111,9 +111,6 @@
   left: 10%;
   width: 80%;
   height: 80%;
-
-  animation-name: begin;
-  animation-duration: 10s;
 }
 
 .beginning > button {
