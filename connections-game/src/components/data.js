@@ -291,6 +291,10 @@ const pickValues = (groups) => {
 	return options;
 }
 
+	const sequence = () => {
+		return pickValues(selectLists());
+	}
+
 let tempOptions = pickValues(selectLists());
 
-export default tempOptions;
+export default sequence;

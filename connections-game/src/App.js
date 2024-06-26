@@ -7,14 +7,14 @@ import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
 import Buttons from './components/Buttons';
-import tempOptions from './components/data';
+import sequence from './components/data';
 import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedItems, submit, correctGuess, wrongGuess, checkPreviousGuesses} from './components/functions';
 
 function App() {
 
   const _ = require('lodash');
 
-  const [options, setOptions] = useState(tempOptions);
+  const [options, setOptions] = useState(sequence());
 
   // counts number of mistakes (default 0, max 4)
   const [totalMistakes, setMistakes] = useState(-1);
@@ -62,15 +62,16 @@ function App() {
   const shuffle = () => {
     let currentIndex = options.length;
     let temp = [...options]
-    const FLOOR = correctGuesses * 4;
-    console.log("step 1");
+    let FLOOR = 0;
+    if(correctGuesses >= 0) {
+      FLOOR  = correctGuesses * 4;
+    }
 
-    while(currentIndex !== FLOOR) {
+    while(currentIndex > FLOOR) {
       let randomIndex = Math.floor(Math.random() * (currentIndex - FLOOR) + FLOOR);
       currentIndex--;
       [temp[currentIndex], temp[randomIndex]] = [temp[randomIndex], temp[currentIndex]];
     }
-    console.log("step 2");
     setOptions(temp);
   }
 
@@ -184,12 +185,17 @@ function App() {
       option.guessed = false;
     })
 
-    shuffle();
+    let test = sequence();
+    setOptions(test);
 
     setCorrectGuesses(0);
     setMistakes(0);
     setPrevGuesses(new Set());
     setSelected(new Set());
+
+    console.log(test);
+    console.log(options);
+    shuffle();
   }
 
   return (
