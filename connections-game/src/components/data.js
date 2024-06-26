@@ -1,5 +1,5 @@
 // NFL teams with no Super Bowl wins
-const TEAMS_NO_SUPER_BOWL_WINS = [["Teams with 0 Super Bowl Wins"],
+export const TEAMS_NO_SUPER_BOWL_WINS = [["Teams with 0 Super Bowl Wins"],
 	["Bengals",
 	"Bills",
 	"Browns",
@@ -15,7 +15,7 @@ const TEAMS_NO_SUPER_BOWL_WINS = [["Teams with 0 Super Bowl Wins"],
 ];
 
 // NFL stadiums
-const NFL_STADIUMS = [["NFL Stadiums"],
+export const NFL_STADIUMS = [["NFL Stadiums"],
 	["Lambeau",
 	"Arrowhead",
 	"Gillette",
@@ -29,7 +29,7 @@ const NFL_STADIUMS = [["NFL Stadiums"],
 ];
 
 // NFL Defensive Players of the Year (first names included)
-const DEFENSIVE_PLAYERS_OF_THE_YEAR = [["DPOY Winners"],
+export const DEFENSIVE_PLAYERS_OF_THE_YEAR = [["DPOY Winners"],
 	["Lawrence Taylor",
 	"Reggie White",
 	"Deion Sanders",
@@ -45,7 +45,7 @@ const DEFENSIVE_PLAYERS_OF_THE_YEAR = [["DPOY Winners"],
 ];
 
 // Super Bowl MVP wide receivers (first names included)
-const SUPER_BOWL_MVP_RECEIVERS = [["Super Bowl MVP Receivers"],
+export const SUPER_BOWL_MVP_RECEIVERS = [["Super Bowl MVP Receivers"],
 	["Lynn Swann",
 	"Deion Branch",
 	"Fred Biletnikoff",
@@ -56,7 +56,7 @@ const SUPER_BOWL_MVP_RECEIVERS = [["Super Bowl MVP Receivers"],
 ];
 
 // NFL teams that have relocated
-const RELOCATED_TEAMS = [["Teams That Have Relocated"],
+export const RELOCATED_TEAMS = [["Teams That Have Relocated"],
 	["Cardinals",
 	"Rams",
 	"Chargers",
@@ -66,7 +66,7 @@ const RELOCATED_TEAMS = [["Teams That Have Relocated"],
 ];
 
 // NFL running backs with 2000-yard seasons (first names included)
-const RB_2000_YARD_SEASONS = [["2000yd RushYd Season"],
+export const RB_2000_YARD_SEASONS = [["2000yd RushYd Season"],
 	["O.J. Simpson",
 	"Eric Dickerson",
 	"Barry Sanders",
@@ -78,7 +78,7 @@ const RB_2000_YARD_SEASONS = [["2000yd RushYd Season"],
 ];
 
 // NFL rookies of the year (first names included)
-const ROOKIES_OF_THE_YEAR = [["Former ROYs"],
+export const ROOKIES_OF_THE_YEAR = [["Former ROYs"],
 	["Emmitt Smith",
 	"Sean Taylor",
 	"Ezekiel Elliott",
@@ -92,7 +92,7 @@ const ROOKIES_OF_THE_YEAR = [["Former ROYs"],
 ];
 
 // NFL kickers with most career field goals (first names included)
-const FIELD_GOALS_LEADERS = [["Top 10 - Field Goals All-Time"],
+export const FIELD_GOALS_LEADERS = [["Top 10 - Field Goals All-Time"],
 	["Adam Vinatieri",
 	"Morten Andersen",
 	"Jason Hanson",
@@ -106,7 +106,7 @@ const FIELD_GOALS_LEADERS = [["Top 10 - Field Goals All-Time"],
 ];
 
 // NFL players who returned from retirement (first names included)
-const PLAYERS_RETURNED_RETIREMENT = [["Players Who Returned from Retirement"],
+export const PLAYERS_RETURNED_RETIREMENT = [["Players Who Returned from Retirement"],
 	["Brett Favre",
 	"Deion Sanders",
 	"Randy Moss",
@@ -118,7 +118,7 @@ const PLAYERS_RETURNED_RETIREMENT = [["Players Who Returned from Retirement"],
 ];
 
 // NFL siblings (first names included)
-const NFL_SIBLINGS = [["NFL Siblings"],
+export const NFL_SIBLINGS = [["NFL Siblings"],
 	["Peyton Manning",
 	"Eli Manning",
 	"Tiki Barber",
@@ -138,7 +138,7 @@ const NFL_SIBLINGS = [["NFL Siblings"],
 ];
 
 // NFL players who have won MVP multiple times (first names included)
-const MULTIPLE_MVP_WINNERS = [["Multi-Time MVP Winners"],
+export const MULTIPLE_MVP_WINNERS = [["Multi-Time MVP Winners"],
 	["Peyton Manning",
 	"Tom Brady",
 	"Aaron Rodgers",
@@ -150,7 +150,7 @@ const MULTIPLE_MVP_WINNERS = [["Multi-Time MVP Winners"],
 ];
 
 // NFL teams that have never changed their city
-const TEAMS_NEVER_CHANGED_CITY = [["Teams That Never Changed City"],
+export const TEAMS_NEVER_CHANGED_CITY = [["Teams That Never Changed City"],
 	["Bears",
 	"Packers",
 	"Giants",
@@ -161,7 +161,7 @@ const TEAMS_NEVER_CHANGED_CITY = [["Teams That Never Changed City"],
 ];
 
 // NFL teams with bird mascots
-const TEAMS_BIRD_MASCOTS = [["Bird Mascot Teams"],
+export const TEAMS_BIRD_MASCOTS = [["Bird Mascot Teams"],
 	["Eagles",
 	"Falcons",
 	"Ravens",
@@ -170,7 +170,7 @@ const TEAMS_BIRD_MASCOTS = [["Bird Mascot Teams"],
 ];
 
 // NFL coaches with multiple Super Bowl wins (first names included)
-const COACHES_MULTIPLE_SUPER_BOWL_WINS = [["Coaches with Multiple Super Bowls"],
+export const COACHES_MULTIPLE_SUPER_BOWL_WINS = [["Coaches with Multiple Super Bowls"],
 	["Bill Belichick",
 	"Chuck Noll",
 	"Don Shula",
@@ -182,7 +182,7 @@ const COACHES_MULTIPLE_SUPER_BOWL_WINS = [["Coaches with Multiple Super Bowls"],
 ];
 
 // NFL players who have played both offense and defense (first names included)
-const TWO_WAY_PLAYERS = [["Two-Way Players"],
+export const TWO_WAY_PLAYERS = [["Two-Way Players"],
 	["Chuck Bednarik",
 	"Ernie Nevers",
 	"Bronko Nagurski",
@@ -194,7 +194,7 @@ const TWO_WAY_PLAYERS = [["Two-Way Players"],
 ];
 
 // NFL players who have won both Heisman Trophy and NFL MVP (first names included)
-const HEISMAN_NFL_MVP_WINNERS = [["Heisman and MVP Winners"],
+export const HEISMAN_NFL_MVP_WINNERS = [["Heisman and MVP Winners"],
 	["Paul Hornung",
 	"O.J. Simpson",
 	"Marcus Allen",
@@ -206,7 +206,7 @@ const HEISMAN_NFL_MVP_WINNERS = [["Heisman and MVP Winners"],
 ];
 
 // NFL players who transitioned to successful coaching careers (first names included)
-const PLAYERS_TO_COACHES = [["Players-Turned-Coaches"],
+export const PLAYERS_TO_COACHES = [["Players-Turned-Coaches"],
 	["Mike Ditka",
 	"Joe Gibbs",
 	"Bill Cowher",
@@ -218,7 +218,7 @@ const PLAYERS_TO_COACHES = [["Players-Turned-Coaches"],
 ];
 
 // NFL teams with retractable roofs
-const RETRACTABLE_ROOF_TEAMS = [["Teams with Retractable-Roof Stadiums"],
+export const RETRACTABLE_ROOF_TEAMS = [["Teams with Retractable-Roof Stadiums"],
 	["Cardinals",
 	"Texans",
 	"Cowboys",
@@ -227,7 +227,7 @@ const RETRACTABLE_ROOF_TEAMS = [["Teams with Retractable-Roof Stadiums"],
 ];
 
 // NFL players who played for only one team their entire career (first names included)
-const ONE_TEAM_PLAYERS = [["Only-One-Team Players"],
+export const ONE_TEAM_PLAYERS = [["Only-One-Team Players"],
 	["Barry Sanders",
 	"Peyton Manning",
 	"Dan Marino",
@@ -237,7 +237,7 @@ const ONE_TEAM_PLAYERS = [["Only-One-Team Players"],
 	"Ronnie Lott"]
 ];
 
-const EASY_MVPS = [["MVP Winners"],
+export const EASY_MVPS = [["MVP Winners"],
 	["Lamar Jackson",
 	"Patrick Mahomes",
 	"Aaron Rodgers",
@@ -248,7 +248,7 @@ const EASY_MVPS = [["MVP Winners"],
 	"Steve McNair"]
 ];
 
-const AFC_TEAMS = [["AFC Teams"],
+export const AFC_TEAMS = [["AFC Teams"],
 	["Ravens",
 	"Bills",
 	"Bengals",
@@ -268,7 +268,7 @@ const AFC_TEAMS = [["AFC Teams"],
 	]
 ];
 
-const NFC_TEAMS = [["NFC Teams"],
+export const NFC_TEAMS = [["NFC Teams"],
 	["Cardinals",
 	"Falcons",
 	"Panthers",
@@ -287,7 +287,7 @@ const NFC_TEAMS = [["NFC Teams"],
 	"Commanders"]
 ];
 
-const CURRENT_BACKUP_QBS = [["Current Backup Quarterbacks"],
+export const CURRENT_BACKUP_QBS = [["Current Backup Quarterbacks"],
 	["Jacoby Brisset",
 	"Justin Fields",
 	"Jimmy Garoppolo",
@@ -317,7 +317,7 @@ const CURRENT_BACKUP_QBS = [["Current Backup Quarterbacks"],
 	"Aidan O'Connell"]
 ];
 
-const CURRENT_WRS = [["Current Wide Receivers"],
+export const CURRENT_WRS = [["Current Wide Receivers"],
 	["Davante Adams",
 	"Justin Jefferson",
 	"Tyreek Hill",
@@ -334,7 +334,7 @@ const CURRENT_WRS = [["Current Wide Receivers"],
 	]
 ]
 
-const QBS_FIRST_ROUND = [["First-Round QBs"],
+export const QBS_FIRST_ROUND = [["First-Round QBs"],
 	["Sam Bradford",
 	"Tim Tebow",
 	"Cam Newton",
@@ -380,7 +380,7 @@ const QBS_FIRST_ROUND = [["First-Round QBs"],
 	"Anthony Richardson"]
 ];
 
-const OTS_FIRST_ROUND = [["First-Round OTs"],
+export const OTS_FIRST_ROUND = [["First-Round OTs"],
 	["Trent Williams",
 	"Russell Okung",
 	"Anthony Davis",
@@ -435,7 +435,7 @@ const OTS_FIRST_ROUND = [["First-Round OTs"],
 	"Paris Johnson Jr."]
 ];
 
-const MIRACLE_PLAYS = [["Miracle/Famous Play Names"],
+export const MIRACLE_PLAYS = [["Miracle/Famous Play Names"],
 	["Mile High",
 	"Minneapolis",
 	"Meadowlands",
@@ -443,7 +443,7 @@ const MIRACLE_PLAYS = [["Miracle/Famous Play Names"],
 	"Music City"]
 ]
 
-const ALL_LIST = [
+export const ALL_LIST = [
 	TEAMS_NO_SUPER_BOWL_WINS,
 	NFL_STADIUMS,
 	DEFENSIVE_PLAYERS_OF_THE_YEAR,
@@ -472,7 +472,7 @@ const ALL_LIST = [
 	NFC_TEAMS
 ];
 
-const EASY_LIST = [
+export const EASY_LIST = [
 	NFL_STADIUMS,
 	NFL_SIBLINGS,
 	TEAMS_BIRD_MASCOTS,
@@ -523,8 +523,6 @@ const pickValues = (groups) => {
 	return options;
 }
 
-	const sequence = (difficulty) => {
-		return pickValues(selectLists(difficulty));
-	}
-
-export default sequence;
+const sequence = (difficulty) => {
+	return pickValues(selectLists(difficulty));
+}

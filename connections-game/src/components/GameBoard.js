@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
+const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
 
   const UNSELECTED = "1px beige solid";
   const SELECTED = "5px beige solid";
@@ -21,11 +21,13 @@ const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, o
     setBorder(temp);
   }, []);
 
+  const [firstTime, setFirstTime] = useState(true);
+
   useEffect(() => {
-    console.log("Use effect on game stage");
     if(correct === 0 && mistakes === 0) {
       if(stage === "playing") {
-        shuffle();
+        setFirstTime(true);
+        generate();
       }
       let temp = {};
       options.forEach((option) => {
@@ -44,10 +46,12 @@ const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, o
   }, [stage])
 
   useEffect(() => {
-    console.log("Use effect on options");
     let temp = {...border};
+    if(correct === 0 && mistakes === 0 && stage === "playing" && firstTime) {
+      setFirstTime(false);
+      shuffle();
+    }
     options.forEach((option) => {
-      // border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
       if(option.guessed) {
         temp[option.name] = returnColor(option.group);
       } else {
@@ -58,7 +62,6 @@ const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, o
   }, [options])
 
   useEffect(() => {
-    console.log("Use effect on selected");
     if(selected.size === 0) {
       let temp = {};
       options.forEach((option) => {
@@ -98,7 +101,6 @@ const GameBoard = ( { shuffle, correct, mistakes, visibility, stage, selected, o
 
   const [animate, setAnimate] = useState(false);
   useEffect(() => {
-    console.log("Use effect on mistakes");
     if(mistakes > 0) {
       setAnimate(true);
       setTimeout(() => {setAnimate(false)}, 2500)
