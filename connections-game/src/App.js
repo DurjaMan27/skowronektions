@@ -7,29 +7,14 @@ import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
 import Buttons from './components/Buttons';
+import tempOptions from './components/data';
 import { findBlock, makeSelection, reshuffleBoard, deselectAll, countSelectedItems, submit, correctGuess, wrongGuess, checkPreviousGuesses} from './components/functions';
 
 function App() {
 
   const _ = require('lodash');
 
-  const [options, setOptions] = useState([{name: "Ravens", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Harbaugh", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "M&T", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Dallas", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Steelers", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Reid", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "CenturyLink", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "New York", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Browns", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "McDaniel", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "SoFi", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Philadelphia", groupName: "NFC East", group: 4, guessed: false},
-                                          {name: "Bengals", groupName: "AFC North", group: 1, guessed: false},
-                                          {name: "Payton", groupName: "Head Coach", group: 2, guessed: false},
-                                          {name: "AT&T", groupName: "Stadium", group: 3, guessed: false},
-                                          {name: "Washington", groupName: "NFC East", group: 4, guessed: false}]
-                                        );
+  const [options, setOptions] = useState(tempOptions);
 
   // counts number of mistakes (default 0, max 4)
   const [totalMistakes, setMistakes] = useState(-1);
@@ -78,12 +63,14 @@ function App() {
     let currentIndex = options.length;
     let temp = [...options]
     const FLOOR = correctGuesses * 4;
+    console.log("step 1");
 
     while(currentIndex !== FLOOR) {
       let randomIndex = Math.floor(Math.random() * (currentIndex - FLOOR) + FLOOR);
       currentIndex--;
       [temp[currentIndex], temp[randomIndex]] = [temp[randomIndex], temp[currentIndex]];
     }
+    console.log("step 2");
     setOptions(temp);
   }
 
@@ -124,20 +111,41 @@ function App() {
   }
 
   useEffect(() => {
-    let temp = [...options]
     if(correctGuesses > 0) {
-      const guesses = Array.from(currentSelected);
-      for(let i = 0; i < guesses.length; i++) {
-        for(let j = i; j < options.length; j++) {
-          if(options[j].name === guesses[i]) {
-            temp[j].guessed = true;
-            [temp[i + ((correctGuesses - 1) * 4)], temp[j]] = [temp[j], temp[i + ((correctGuesses - 1) * 4)]];
-          }
+      let temp = [];
+      let groupsSolved = new Set();
+      for(let i = 0; i < (correctGuesses - 1) * 4; i++) {
+        temp.push(options[i]);
+        groupsSolved.add(options[i].group); // adds group that have been solved
+      }
+
+      let currentGroup = 0;
+      let index = 0;
+      while(currentGroup === 0) {
+        if(currentSelected.has(options[index].name)) {
+          currentGroup = options[index].group;
+        }
+        index++;
+      }
+
+      for(let j = 0; j < 16; j++) {
+        if(options[j].group === currentGroup) {
+          temp.push(options[j]);
+          temp[temp.length - 1].guessed = true;
+          groupsSolved.add(options[j].group);
         }
       }
+
+      for(let k = 0; k < 16; k++) {
+        if(!groupsSolved.has(options[k].group)) {
+          temp.push(options[k]);
+        }
+      }
+
+      setOptions(temp);
     }
     deselectAll();
-    setOptions(temp);
+
   }, [correctGuesses])
 
   const [gameStage, setGameStage] = useState("start");
@@ -149,9 +157,7 @@ function App() {
     } else if(component === "gameboard" || component === "mistakes" || component === "buttons") {
       if(gameStage === "playing") {
         return "visible";
-      }/* else if( (gameStage === "won" || gameStage === "lost" ) && component === "gameboard") {
-        return "visible";
-      }*/
+      }
     } else if(component === "replayscreen") {
       if(gameStage === "lost" || gameStage === "won") {
         return "visible";
@@ -178,7 +184,7 @@ function App() {
       option.guessed = false;
     })
 
-    // generate a new set of options
+    shuffle();
 
     setCorrectGuesses(0);
     setMistakes(0);
@@ -216,3 +222,21 @@ function App() {
 export default App;
 
 // const list = ["HELLO", "WORLD", "HERE", "LONGBOAT", "AM", "THIS", "DECOR", "SOMETHING", "THAT", "DOES", "SUITABLE", "COOL", "NICE", "LOVING", "BRILLIANT", "THANKS"]
+
+/*const [options, setOptions] = useState([{name: "Ravens", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Harbaugh", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "M&T", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Dallas", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Steelers", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Reid", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "CenturyLink", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "New York", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Browns", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "McDaniel", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "SoFi", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Philadelphia", groupName: "NFC East", group: 4, guessed: false},
+                                          {name: "Bengals", groupName: "AFC North", group: 1, guessed: false},
+                                          {name: "Payton", groupName: "Head Coach", group: 2, guessed: false},
+                                          {name: "AT&T", groupName: "Stadium", group: 3, guessed: false},
+                                          {name: "Washington", groupName: "NFC East", group: 4, guessed: false}]
+                                        );*/
