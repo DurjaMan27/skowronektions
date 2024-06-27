@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 
-const Mistakes = ( { stage, totalMistakes } ) => {
+/**
+ * Parameters/Props:
+ * - totalMistakes: the total number of mistakes made in the current game
+ *
+ * Returns:
+ * A div on the right-hand side that counts the number of mistakes by filling in empty circles
+ */
+
+const Mistakes = ( { totalMistakes } ) => {
+  // holds background color of each mistake circle and changes to beige depending on number of totalMistakes
   const [bgColor, setBgColor] = useState(["black", "black", "black", "black"]);
 
   // this useEffect will run every time totalMistakes (a prop from the root component) is changed

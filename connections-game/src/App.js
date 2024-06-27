@@ -251,11 +251,11 @@ function App() {
           <Buttons selected={currentSelected} shuffle={shuffle} deselect={deselectAll} submit={submit}/>
         </div>
         <div className="Game-area">
-          <StartScreen visibility={getVisibility("startscreen")} stage={gameStage} startGame={startgame}/>
+          <StartScreen visibility={getVisibility("startscreen")} startGame={startgame}/>
           <ReplayScreen options={options} visibility={getVisibility("replayscreen")} stage={gameStage} replay={startgame}/>
-          <GameBoard generate={generateOptions}shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
+          <GameBoard generate={generateOptions} shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
         </div>
-        <div className="mistakes" stage={gameStage} style={{visibility: getVisibility("mistakes")}}>
+        <div className="mistakes" style={{visibility: getVisibility("mistakes")}}>
           <Mistakes totalMistakes={totalMistakes}/>
         </div>
       </div>

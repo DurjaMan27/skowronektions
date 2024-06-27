@@ -485,44 +485,10 @@ export const EASY_LIST = [
 	NFC_TEAMS
 ]
 
-const selectLists = (difficulty) => {
-	let groups = [];
 
-	let list = [];
-	if(difficulty === "easy") {
-		list = EASY_LIST;
-	} else if (difficulty === "hard") {
-		list = ALL_LIST;
-	}
-
-	while(groups.length < 4) {
-		let potentialNewGroup = list[Math.floor(Math.random() * list.length)];
-		if(!groups.includes(potentialNewGroup)) {
-			groups.push(potentialNewGroup);
-		}
-	}
-	return groups;
-}
-
-const pickValues = (groups) => {
-	let allNames = new Set();
-	let options = [];
-
-	for(let i = 0; i < groups.length; i++){
-		let namesAdded = 0
-		while(namesAdded < 4) {
-			let potentialOption = groups[i][1][Math.floor(Math.random() * groups[i][1].length)];
-			if(!allNames.has(potentialOption)) {
-				options.push({name: potentialOption, groupName: groups[i][0][0], group: i + 1, guessed: false});
-				allNames.add(potentialOption)
-				namesAdded++;
-			}
-		}
-	}
-
-	return options;
-}
-
-const sequence = (difficulty) => {
-	return pickValues(selectLists(difficulty));
-}
+/**
+ * This section contains all of the answers and groups that are possible.
+ * Each list contains a few players/stadiums/coaches/teams/etc.
+ * The lists ALL_LIST and EASY_LIST contain the variables holding all the other lists to allow for randomized group selection.
+ * Each list is exported to the App.js file to be used in randomized selection.
+ */

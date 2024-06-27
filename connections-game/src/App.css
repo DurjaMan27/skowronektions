@@ -151,7 +151,6 @@
   grid-template-rows: repeat(4, 1fr);
   justify-content: center;
   align-items: center;
-  gap: 5px;
   padding-left: 5%;
 
   position: absolute;
@@ -167,7 +166,6 @@
   grid-template-rows: repeat(4, 1fr);
   justify-content: center;
   align-items: center;
-  gap: 5px;
   padding-left: 5%;
 
   position: absolute;
@@ -183,12 +181,13 @@
 .options {
   display: flex;
   color: beige;
-  height: 125px;
-  width: 125px;
+  height: 140px;
+  width: 160px;
   border-radius: 10px;
   border: 1px beige solid;
 
   font-size: 20px;
+  font-size-adjust: 0.5;
   font-weight: bold;
   word-wrap: break-word;
   word-break: break-word;
