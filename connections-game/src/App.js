@@ -22,7 +22,6 @@ function App() {
   };
   const selectLists = async (difficulty) => {
     const list = await loadData(difficulty);
-    console.log(list);
     let groups = [];
     while(groups.length < 4) {
       let potentialNewGroup = list[Math.floor(Math.random() * list.length)];
@@ -30,7 +29,6 @@ function App() {
         groups.push(potentialNewGroup);
       }
     }
-    console.log(groups);
     return groups;
   }
   const pickValues = async (difficulty) => {
