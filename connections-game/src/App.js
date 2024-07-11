@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard';
 import StartScreen from './components/StartScreen';
@@ -127,7 +127,7 @@ function App() {
 
       if(message === "four") {
         incCorrect();
-      } else if(message === "three") {
+      } else if(message === "three" && totalMistakes < 3) {
         alert("one away...");
         incMistakes();
       } else {
@@ -155,8 +155,55 @@ function App() {
     return "wrong";
   }
 
+  const selected = useRef(currentSelected);
+  const optionsTemp = useRef(options);
+
   useEffect(() => {
+    selected.current = currentSelected;
+  }, [currentSelected]);
+
+  useEffect(() => {
+    optionsTemp.current = options;
+  }, [options]);
+
+  useEffect(() => {
+
     if(correctGuesses > 0) {
+      let temp = [];
+      let groupsSolved = new Set();
+      for(let i = 0; i < (correctGuesses - 1) * 4; i++) {
+        temp.push(optionsTemp.current[i]);
+        groupsSolved.add(optionsTemp.current[i].group); // adds group that have been solved
+      }
+
+      let currentGroup = 0;
+      let index = 0;
+      while(currentGroup === 0) {
+        if(selected.current.has(optionsTemp.current[index].name)) {
+          currentGroup = optionsTemp.current[index].group;
+        }
+        index++;
+      }
+
+      for(let j = 0; j < 16; j++) {
+        if(optionsTemp.current[j].group === currentGroup) {
+          temp.push(optionsTemp.current[j]);
+          temp[temp.length - 1].guessed = true;
+          groupsSolved.add(optionsTemp.current[j].group);
+        }
+      }
+
+      for(let k = 0; k < 16; k++) {
+        if(!groupsSolved.has(optionsTemp.current[k].group)) {
+          temp.push(optionsTemp.current[k]);
+        }
+      }
+
+      setOptions(temp);
+    }
+    deselectAll();
+
+    /*if(correctGuesses > 0) {
       let temp = [];
       let groupsSolved = new Set();
       for(let i = 0; i < (correctGuesses - 1) * 4; i++) {
@@ -189,7 +236,7 @@ function App() {
 
       setOptions(temp);
     }
-    deselectAll();
+    deselectAll();*/
 
   }, [correctGuesses])
 
