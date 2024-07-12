@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 /**
  * Parameters/Props:
@@ -41,6 +41,8 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
   }
 
 
+
+
   // sets first time to true and generates options if firsttime (also changes all colors to correct versions (though it is not shown right now))
   useEffect(() => {
     if(correct === 0 && mistakes === 0) {
@@ -80,13 +82,24 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       }
     });
     setBorder(temp);
-  }, [options])
+  }, [options, firstTime])
 
+  const updateBorders = useCallback(() => {
+    let temp = {...border};
+    options.forEach((option) => {
+      if(option.guessed) {
+        temp[option.name] = returnColor(option.group);
+      } else {
+        border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
+      }
+    });
+    setBorder(temp);
+  }, [options])
 
   // also used to update the border colors and determine clickable each time selected changes (mainly when selected becomes 0)
   useEffect(() => {
     if(selected.size === 0) {
-      let temp = {};
+      /*let temp = {};
       options.forEach((option) => {
         if(option.guessed) {
           temp[option.name] = returnColor(option.group);
@@ -94,10 +107,11 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
           temp[option.name] = UNSELECTED;
         }
       });
-      setBorder(temp);
+      setBorder(temp);*/
+      updateBorders();
     }
     setClickable(selected.size < 4);
-  }, [selected]);
+  }, [selected, updateBorders]);
 
 
   // function to check whether the name being passed in has been guessed correctly already

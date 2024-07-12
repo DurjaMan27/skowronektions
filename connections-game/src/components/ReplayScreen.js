@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * Parameters/Props:
@@ -30,6 +30,11 @@ const ReplayScreen = ( { options, visibility, stage, replay }) => {
     setMessage(newMessage);
   }
 
+  const optionsTemp = useRef(options);
+  useEffect(() => {
+    optionsTemp.current = options;
+  }, [options]);
+
 
   // whenever stage is changed, update to necessary message and add the correct values into the respective groups and names
   useEffect(() => {
@@ -40,7 +45,7 @@ const ReplayScreen = ( { options, visibility, stage, replay }) => {
     }
     let temp = ["", "", "", ""];
     let names = ["", "", "", ""];
-    options.forEach(option => {
+    optionsTemp.current.forEach(option => {
       if(temp[option.group - 1] === "") {
         temp[option.group - 1] = option.name;
         names[option.group - 1] = option.groupName;
@@ -48,6 +53,14 @@ const ReplayScreen = ( { options, visibility, stage, replay }) => {
         temp[option.group - 1] += ", " + option.name;
       }
     })
+    /*options.forEach(option => {
+      if(temp[option.group - 1] === "") {
+        temp[option.group - 1] = option.name;
+        names[option.group - 1] = option.groupName;
+      } else {
+        temp[option.group - 1] += ", " + option.name;
+      }
+    })*/
     setGroupsList(temp);
     setGroupNames(names);
   }, [stage])
