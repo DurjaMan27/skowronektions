@@ -40,7 +40,6 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
     return COLORARR[groupNum - 1];
   }
 
-
   const refMistakes = useRef(mistakes);
   const refSelected = useRef(selected);
 
@@ -102,7 +101,7 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
         }
       }
     }
-  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected, firstTime, returnColor]);
+  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected]);
 
 
   // function to check whether the name being passed in has been guessed correctly already
@@ -142,123 +141,6 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       </div>
     </>
   );
-
-/*
-
-  // sets first time to true and generates options if firsttime (also changes all colors to correct versions (though it is not shown right now))
-  useEffect(() => {
-    if(correct === 0 && mistakes === 0) {
-      if(stage === "playing") {
-        setFirstTime(true);
-        generate();
-      }
-      let temp = {};
-      options.forEach((option) => {
-        temp[option.name] = UNSELECTED
-      });
-      setBorder(temp);
-      setClickable(true);
-    } else if(stage === "won" || stage === "lost") {
-      let temp = {};
-      options.forEach((option) => {
-        temp[option.name] = returnColor(option.group);
-      });
-      setBorder(temp);
-      setClickable(false);
-    }
-  }, [stage])
-
-
-  // used to update border color, but when options changes (here, sets firsttime to false if necessary and shuffles options before updating border color)
-  useEffect(() => {
-    let temp = {...border};
-    if(correct === 0 && mistakes === 0 && stage === "playing" && firstTime) {
-      setFirstTime(false);
-      shuffle();
-    }
-    options.forEach((option) => {
-      if(option.guessed) {
-        temp[option.name] = returnColor(option.group);
-      } else {
-        border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-      }
-    });
-    setBorder(temp);
-  }, [options, firstTime])
-
-  const updateBorders = useCallback(() => {
-    let temp = {...border};
-    options.forEach((option) => {
-      if(option.guessed) {
-        temp[option.name] = returnColor(option.group);
-      } else {
-        border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-      }
-    });
-    setBorder(temp);
-  }, [options])
-
-  // also used to update the border colors and determine clickable each time selected changes (mainly when selected becomes 0)
-  useEffect(() => {
-    if(selected.size === 0) {
-      let temp = {};
-      options.forEach((option) => {
-        if(option.guessed) {
-          temp[option.name] = returnColor(option.group);
-        } else {
-          temp[option.name] = UNSELECTED;
-        }
-      });
-      setBorder(temp);
-    }
-    setClickable(selected.size < 4);
-  }, [selected, updateBorders]);
-
-
-  // function to check whether the name being passed in has been guessed correctly already
-  const checkGuessed = (name) => {
-    for(let i = 0; i < 16; i++) {
-      if(options[i].name === name) {
-        return options[i].guessed;
-      }
-    }
-  }
-
-
-  // function to determine whether a block should be selected or unselected when clicked on (also calls function to add/remove block from selected list and change border)
-  const clickOrUnclick = (name) => {
-    const temp = {...border};
-    if(selected.has(name)) {
-      temp[name] = UNSELECTED;
-      setBorder(temp);
-      selectFunc(false, name);
-    } else if(clickable && !checkGuessed(name)) {
-      temp[name] = SELECTED;
-      setBorder(temp);
-      selectFunc(true, name);
-    }
-  }
-
-
-  // if mistakes is incremented, changes animate state to true and animates for 2.5s before turning off again
-  useEffect(() => {
-    if(mistakes > 0) {
-      setAnimate(true);
-      setTimeout(() => {setAnimate(false)}, 2500)
-    }
-  }, [mistakes])
-
-  return (
-    <>
-      <div className={`Gameboard${animate ? 'Animate' : ''}`} style={{visibility: visibility}}>
-        {options.map((item, index) => (
-          <div onClick={() => clickOrUnclick(item.name)} key={index} className={"options"} style={{border: border[item.name]}}>
-            {item.name}
-          </div>
-        ))}
-      </div>
-    </>
-  );*/
 };
 
 export default GameBoard;
