@@ -43,6 +43,7 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
 
   const refMistakes = useRef(mistakes);
   const refSelected = useRef(selected);
+  const refOptions = useRef(options);
 
   useEffect(() => {
     if( (stage === "won" || stage === "lost") && !firstTime) {
@@ -53,6 +54,18 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       setBorder(temp);
       setClickable(false);
       setFirstTime(true);
+    } else if(correct === 0 && mistakes === 0 && stage === "playing") {
+      if(firstTime) {
+        generate();
+        let temp = {};
+        options.forEach((option) => {
+          temp[option.name] = UNSELECTED
+        });
+        setBorder(temp);
+        setClickable(true);
+        shuffle();
+        setFirstTime(false);
+      }
     } else if(mistakes !== refMistakes.current) {
       refMistakes.current = mistakes;
       if(mistakes > 0) {
@@ -68,7 +81,9 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
           border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
         }
       });
+      refSelected.current = selected;
       setBorder(temp);
+      setClickable(selected.size < 4);
     } else if(selected.size === 0 && selected !== refSelected.current) {
       refSelected.current = selected;
       let temp = {...border};
@@ -80,29 +95,35 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
         }
       });
       setBorder(temp);
+      setClickable(selected.size < 4);
+    } else if (options !== refOptions.current) {
+      refOptions.current = options;
     }
 
-    /*if(visibility === "hidden") {
-      // do nothing
-    }*/
-
-
-    else if(correct === 0 && mistakes === 0) {
-      if(stage === "playing") {
-        if(firstTime) {
-          setFirstTime(false);
-          generate();
-          let temp = {};
-          options.forEach((option) => {
-            temp[option.name] = UNSELECTED
-          });
-          setBorder(temp);
-          setClickable(true);
-          shuffle();
+    // console.log(options)
+    if(options.length > 1) {
+      setFirstTime(false);
+      let sum = 0;
+      let count = 0;
+      console.log("previous")
+      options.forEach((option) => {
+        sum += option.group;
+        if(option.guessed === true) {
+          count = -1;
         }
-      }
+        if(count === 3) {
+          if(sum === 4) {
+            console.log("here")
+            shuffle();
+          }
+          count = -1;
+        }
+        if(count >= 0) {
+          count++;
+        }
+      });
     }
-  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected, firstTime, returnColor]);
+  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected, firstTime, returnColor, refOptions]);
 
 
   // function to check whether the name being passed in has been guessed correctly already
