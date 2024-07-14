@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 /**
  * Parameters/Props:
@@ -16,12 +16,15 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
  * The middle screen with all options -- the main interactive component of the game, updating when changes to options,selected, etc. are made
  */
 
-const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
+const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
 
   // holds CSS border values for different classes of options (unselected, selected, correct (each group gets a different color))
   const UNSELECTED = "1px beige solid";
   const SELECTED = "5px beige solid";
-  const COLORARR = ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"];
+  //const COLORARR = ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"];
+  const COLORARR = useMemo(() => {
+    return ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"]; // Your array values
+  }, []);
 
   // border will now hold the border (selected value CSS) for each of options
   const [border, setBorder] = useState({});
@@ -35,104 +38,96 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
   // used to determine when the div should animate (changes the div to animated version whenever an error is made after submitting)
   const [animate, setAnimate] = useState(false);
 
-  const [shuffleConfirm, setShuffle] = useState(false);
+  // const [shuffleConfirm, setShuffle] = useState(false);
 
   // returns the right color based on group Number (just an abstraction for ease of use)
-  const returnColor = (groupNum) => {
-    return COLORARR[groupNum - 1];
-  }
+  // const returnColor = (groupNum) => {
+  //   return COLORARR[groupNum - 1];
+  // }
 
+  const [shuffledConfirm, setShuffled] = useState(false);
 
   const refMistakes = useRef(mistakes);
   const refSelected = useRef(selected);
   const refOptions = useRef(options);
 
+
   useEffect(() => {
-    if( (stage === "won" || stage === "lost") && !firstTime) {
-      console.log("1")
-      let temp = {};
-      options.forEach((option) => {
-        temp[option.name] = returnColor(option.group);
-      });
-      setBorder(temp);
-      setClickable(false);
+    if(stage === "won" || stage === "lost") {
       setFirstTime(true);
-      setShuffle(false);
-    } else if(correct === 0 && mistakes === 0 && stage === "playing") {
-      console.log("2")
+      setClickable(true);
+      setShuffled(false);
+    } else if(stage === "playing") {
       if(firstTime) {
-        console.log("first time!!")
         generate();
+        setClickable(true);
         let temp = {};
-        options.forEach((option) => {
-          temp[option.name] = UNSELECTED
+        refOptions.current.forEach((option) => {
+          temp[option.name] = UNSELECTED;
         });
         setBorder(temp);
-        setClickable(true);
-        // shuffle();
+        shuffle();
         setFirstTime(false);
+        setShuffled(false);
       }
-    } else if(mistakes !== refMistakes.current) {
-      console.log("3")
+    }
+  }, [stage, generate, shuffle, selected, shuffledConfirm, firstTime, refOptions])
+
+  useEffect(() => {
+    if(stage === "playing" && !shuffledConfirm && refOptions.current.length > 1 && !firstTime) {
+      setTimeout(() => {
+        setFirstTime(false);
+        setShuffled(true);
+        shuffle();
+      }, 0.1)
+    }
+    if(options !== refOptions.current) {
+      refOptions.current = options;
+      let temp = {};
+      options.forEach((option) => {
+        if(option.guessed) {
+          temp[option.name] = COLORARR[option.group - 1];
+        } else {
+          border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
+        }
+      })
+      setBorder(temp);
+    }
+  }, [options, shuffle, stage, shuffledConfirm, refOptions, border, COLORARR, firstTime])
+
+  useEffect(() => {
+    if(options.length > 1) {
+      if(selected !== refSelected.current) {
+        let temp = {};
+        options.forEach((option) => {
+          if(option.guessed) {
+            temp[option.name] = COLORARR[option.group - 1];
+          } else if(selected.size === 0) {
+            temp[option.name] = UNSELECTED;
+          } else {
+            border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
+          }
+        })
+        setBorder(temp);
+        refSelected.current = selected;
+      }
+      if(selected.size === 4 && clickable) {
+        setClickable(false);
+      } else if(selected.size < 4 && !clickable) {
+        setClickable(true);
+      }
+    }
+  }, [selected, options, options.length, refSelected, border, clickable, COLORARR])
+
+  useEffect(() => {
+    if(mistakes !== refMistakes.current) {
       refMistakes.current = mistakes;
       if(mistakes > 0) {
         setAnimate(true);
         setTimeout(() => {setAnimate(false)}, 2500)
       }
-    } else if(selected.size > 0) {
-      console.log("4")
-      let temp = {...border};
-      options.forEach((option) => {
-        if(option.guessed) {
-          temp[option.name] = returnColor(option.group);
-        } else {
-          border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-        }
-      });
-      refSelected.current = selected;
-      setBorder(temp);
-      setClickable(selected.size < 4);
-    } else if(selected.size === 0 && selected !== refSelected.current) {
-      console.log("5")
-      refSelected.current = selected;
-      let temp = {...border};
-      options.forEach((option) => {
-        if(option.guessed) {
-          temp[option.name] = returnColor(option.group);
-        } else {
-          border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-        }
-      });
-      setBorder(temp);
-      setClickable(selected.size < 4);
-    } else if (options !== refOptions.current) {
-      console.log("6")
-      refOptions.current = options;
     }
-
-    if(options.length > 1 && !shuffleConfirm) {
-      setShuffle(true);
-      shuffle();
-      /*setFirstTime(false);
-      let sum = 0;
-      let count = 0;
-      options.forEach((option) => {
-        sum += option.group;
-        if(option.guessed === true) {
-          count = -1;
-        }
-        if(count === 3 && sum === 4) {
-          shuffle();
-          count = -1;
-        }
-        if(count >= 0) {
-          count++;
-        }
-      });*/
-    }
-
-
-  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected, firstTime, returnColor, refOptions, shuffleConfirm]);
+  }, [animate, mistakes, refMistakes])
 
 
   // function to check whether the name being passed in has been guessed correctly already
@@ -172,123 +167,6 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       </div>
     </>
   );
-
-/*
-
-  // sets first time to true and generates options if firsttime (also changes all colors to correct versions (though it is not shown right now))
-  useEffect(() => {
-    if(correct === 0 && mistakes === 0) {
-      if(stage === "playing") {
-        setFirstTime(true);
-        generate();
-      }
-      let temp = {};
-      options.forEach((option) => {
-        temp[option.name] = UNSELECTED
-      });
-      setBorder(temp);
-      setClickable(true);
-    } else if(stage === "won" || stage === "lost") {
-      let temp = {};
-      options.forEach((option) => {
-        temp[option.name] = returnColor(option.group);
-      });
-      setBorder(temp);
-      setClickable(false);
-    }
-  }, [stage])
-
-
-  // used to update border color, but when options changes (here, sets firsttime to false if necessary and shuffles options before updating border color)
-  useEffect(() => {
-    let temp = {...border};
-    if(correct === 0 && mistakes === 0 && stage === "playing" && firstTime) {
-      setFirstTime(false);
-      shuffle();
-    }
-    options.forEach((option) => {
-      if(option.guessed) {
-        temp[option.name] = returnColor(option.group);
-      } else {
-        border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-      }
-    });
-    setBorder(temp);
-  }, [options, firstTime])
-
-  const updateBorders = useCallback(() => {
-    let temp = {...border};
-    options.forEach((option) => {
-      if(option.guessed) {
-        temp[option.name] = returnColor(option.group);
-      } else {
-        border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
-      }
-    });
-    setBorder(temp);
-  }, [options])
-
-  // also used to update the border colors and determine clickable each time selected changes (mainly when selected becomes 0)
-  useEffect(() => {
-    if(selected.size === 0) {
-      let temp = {};
-      options.forEach((option) => {
-        if(option.guessed) {
-          temp[option.name] = returnColor(option.group);
-        } else {
-          temp[option.name] = UNSELECTED;
-        }
-      });
-      setBorder(temp);
-    }
-    setClickable(selected.size < 4);
-  }, [selected, updateBorders]);
-
-
-  // function to check whether the name being passed in has been guessed correctly already
-  const checkGuessed = (name) => {
-    for(let i = 0; i < 16; i++) {
-      if(options[i].name === name) {
-        return options[i].guessed;
-      }
-    }
-  }
-
-
-  // function to determine whether a block should be selected or unselected when clicked on (also calls function to add/remove block from selected list and change border)
-  const clickOrUnclick = (name) => {
-    const temp = {...border};
-    if(selected.has(name)) {
-      temp[name] = UNSELECTED;
-      setBorder(temp);
-      selectFunc(false, name);
-    } else if(clickable && !checkGuessed(name)) {
-      temp[name] = SELECTED;
-      setBorder(temp);
-      selectFunc(true, name);
-    }
-  }
-
-
-  // if mistakes is incremented, changes animate state to true and animates for 2.5s before turning off again
-  useEffect(() => {
-    if(mistakes > 0) {
-      setAnimate(true);
-      setTimeout(() => {setAnimate(false)}, 2500)
-    }
-  }, [mistakes])
-
-  return (
-    <>
-      <div className={`Gameboard${animate ? 'Animate' : ''}`} style={{visibility: visibility}}>
-        {options.map((item, index) => (
-          <div onClick={() => clickOrUnclick(item.name)} key={index} className={"options"} style={{border: border[item.name]}}>
-            {item.name}
-          </div>
-        ))}
-      </div>
-    </>
-  );*/
 };
 
-export default GameBoard;
+export default TempBoard;
