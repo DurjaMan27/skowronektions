@@ -50,7 +50,9 @@ function App() {
     return tempOptions;
   }
   const generateOptions = async () => {
+    console.log("clearing and generating")
     const temp = await pickValues("easy");
+    console.log(temp)
     setOptions(temp);
   }
 
@@ -98,8 +100,6 @@ function App() {
   }
 
   const shuffle = () => {
-    console.log("shuffling")
-    console.log(options)
     let currentIndex = options.length;
     let temp = [...options]
     let FLOOR = 0;
