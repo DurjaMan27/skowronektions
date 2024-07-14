@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /**
  * Parameters/Props:
@@ -12,20 +12,25 @@ const Mistakes = ( { totalMistakes } ) => {
   // holds background color of each mistake circle and changes to beige depending on number of totalMistakes
   const [bgColor, setBgColor] = useState(["black", "black", "black", "black"]);
 
+  const refMistakes = useRef(totalMistakes);
+
   // this useEffect will run every time totalMistakes (a prop from the root component) is changed
   // when TotalMistakes is changed (because the user has made a mistake), the mistake color will be updated accordingly
   useEffect(() => {
-    let temp = [...bgColor]
-    if(totalMistakes > 0) {
-      temp[totalMistakes - 1] = "beige";
-      setBgColor(temp);
-    } else if(totalMistakes === 0) {
-      for(let i = 0; i < 4; i++) {
-        temp[i] = "black";
+    if(totalMistakes !== refMistakes.current) {
+      let temp = [...bgColor]
+      if(totalMistakes > 0) {
+        temp[totalMistakes - 1] = "beige";
         setBgColor(temp);
+      } else if(totalMistakes === 0) {
+        for(let i = 0; i < 4; i++) {
+          temp[i] = "black";
+          setBgColor(temp);
+        }
       }
+      refMistakes.current = totalMistakes;
     }
-  }, [totalMistakes]);
+  }, [bgColor, totalMistakes, refMistakes]);
 
   return (
     <>
