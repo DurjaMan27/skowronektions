@@ -58,18 +58,9 @@ const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       setClickable(true);
       setShuffled(false);
     } else if(stage === "playing") {
-      // console.log("length")
-      // console.log(refOptions.current.length);
-      // if(!shuffledConfirm && refOptions.current.length > 1) {
-      //   console.log("within")
-      //   setFirstTime(false);
-      //   setShuffled(true);
-      //   shuffle();
-      // }
       if(firstTime) {
         generate();
         setClickable(true);
-        // setFirstTime(false);
         let temp = {};
         refOptions.current.forEach((option) => {
           temp[option.name] = UNSELECTED;
@@ -84,10 +75,22 @@ const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
 
   useEffect(() => {
     if(stage === "playing" && !shuffledConfirm && refOptions.current.length > 1 && !firstTime) {
-      console.log("within")
-      setFirstTime(false);
-      setShuffled(true);
-      shuffle();
+      // if(options[0].group === options[1].group && options[0].group === options[2].group && options[0].group === options[3].group && !options[0].guessed) {
+      //   setTimeout(() => {
+      //     setFirstTime(false);
+      //     setShuffled(true);
+      //     shuffle();
+      //   }, 2000)
+      // }
+      // console.log("within")
+      // setFirstTime(false);
+      // setShuffled(true);
+      // shuffle();
+      setTimeout(() => {
+        setFirstTime(false);
+        setShuffled(true);
+        shuffle();
+      }, 0.1)
     }
     if(options !== refOptions.current) {
       // console.log("changed")

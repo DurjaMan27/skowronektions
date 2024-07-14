@@ -99,6 +99,8 @@ function App() {
   }
 
   const shuffle = () => {
+    console.log("shuffling")
+    console.log(options)
     let currentIndex = options.length;
     let temp = [...options]
     let FLOOR = 0;
