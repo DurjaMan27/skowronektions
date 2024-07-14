@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard';
+import TempBoard from './components/tempBoard';
 import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
@@ -298,7 +299,7 @@ function App() {
         <div className="Game-area">
           <StartScreen visibility={getVisibility("startscreen")} startGame={startgame}/>
           <ReplayScreen options={options} visibility={getVisibility("replayscreen")} stage={gameStage} replay={startgame}/>
-          <GameBoard generate={generateOptions} shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
+          <TempBoard generate={generateOptions} shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
         </div>
         <div className="mistakes" style={{visibility: getVisibility("mistakes")}}>
           <Mistakes totalMistakes={totalMistakes}/>

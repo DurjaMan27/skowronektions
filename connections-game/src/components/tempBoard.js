@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
 /**
  * Parameters/Props:
@@ -16,12 +16,15 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
  * The middle screen with all options -- the main interactive component of the game, updating when changes to options,selected, etc. are made
  */
 
-const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
+const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, selected, options, selectFunc } ) => {
 
   // holds CSS border values for different classes of options (unselected, selected, correct (each group gets a different color))
   const UNSELECTED = "1px beige solid";
   const SELECTED = "5px beige solid";
-  const COLORARR = ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"];
+  //const COLORARR = ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"];
+  const COLORARR = useMemo(() => {
+    return ["5px #234CEC solid", "5px green solid", "5px yellow solid", "5px #D72121 solid"]; // Your array values
+  }, []);
 
   // border will now hold the border (selected value CSS) for each of options
   const [border, setBorder] = useState({});
@@ -35,16 +38,121 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
   // used to determine when the div should animate (changes the div to animated version whenever an error is made after submitting)
   const [animate, setAnimate] = useState(false);
 
+  // const [shuffleConfirm, setShuffle] = useState(false);
+
   // returns the right color based on group Number (just an abstraction for ease of use)
-  const returnColor = (groupNum) => {
-    return COLORARR[groupNum - 1];
-  }
+  // const returnColor = (groupNum) => {
+  //   return COLORARR[groupNum - 1];
+  // }
+
+  const [shuffledConfirm, setShuffled] = useState(false);
 
   const refMistakes = useRef(mistakes);
   const refSelected = useRef(selected);
+  const refOptions = useRef(options);
+
 
   useEffect(() => {
+    if(stage === "won" || stage === "lost") {
+      setFirstTime(true);
+      setClickable(true);
+      setShuffled(false);
+    } else if(stage === "playing") {
+      // console.log("length")
+      // console.log(refOptions.current.length);
+      // if(!shuffledConfirm && refOptions.current.length > 1) {
+      //   console.log("within")
+      //   setFirstTime(false);
+      //   setShuffled(true);
+      //   shuffle();
+      // }
+      if(firstTime) {
+        generate();
+        setClickable(true);
+        // setFirstTime(false);
+        let temp = {};
+        refOptions.current.forEach((option) => {
+          temp[option.name] = UNSELECTED;
+        });
+        setBorder(temp);
+        shuffle();
+        setFirstTime(false);
+        setShuffled(false);
+      }
+    }
+  }, [stage, generate, shuffle, selected, shuffledConfirm, firstTime, refOptions])
+
+  useEffect(() => {
+    if(stage === "playing" && !shuffledConfirm && refOptions.current.length > 1 && !firstTime) {
+      console.log("within")
+      setFirstTime(false);
+      setShuffled(true);
+      shuffle();
+    }
+    if(options !== refOptions.current) {
+      // console.log("changed")
+      // console.log(options);
+      refOptions.current = options;
+      let temp = {};
+      options.forEach((option) => {
+        if(option.guessed) {
+          //temp[option.name] = returnColor(option.group);
+          temp[option.name] = COLORARR[option.group - 1];
+        } else {
+          border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
+        }
+      })
+      setBorder(temp);
+    }
+  }, [options, shuffle, stage, shuffledConfirm, refOptions, border, COLORARR, firstTime])
+
+  useEffect(() => {
+    if(options.length > 1) {
+      if(selected !== refSelected.current) {
+        let temp = {};
+        options.forEach((option) => {
+          if(option.guessed) {
+            // temp[options.name] = returnColor(option.group);
+            temp[option.name] = COLORARR[option.group - 1];
+          } else if(selected.size === 0) {
+            temp[option.name] = UNSELECTED;
+          } else {
+            // console.log(border[option.name] === SELECTED);
+            border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
+          }
+        })
+        setBorder(temp);
+        refSelected.current = selected;
+      }
+      if(selected.size === 4 && clickable) {
+        setClickable(false);
+      } else if(selected.size < 4 && !clickable) {
+        setClickable(true);
+      }
+    }
+  }, [selected, options, options.length, refSelected, border, clickable, COLORARR])
+
+  useEffect(() => {
+    if(mistakes !== refMistakes.current) {
+      refMistakes.current = mistakes;
+      if(mistakes > 0) {
+        setAnimate(true);
+        setTimeout(() => {setAnimate(false)}, 2500)
+      }
+    }
+  }, [animate, mistakes, refMistakes])
+
+
+
+
+
+
+
+
+/*
+  useEffect(() => {
     if( (stage === "won" || stage === "lost") && !firstTime) {
+      console.log("1")
       let temp = {};
       options.forEach((option) => {
         temp[option.name] = returnColor(option.group);
@@ -52,13 +160,30 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       setBorder(temp);
       setClickable(false);
       setFirstTime(true);
+      setShuffle(false);
+    } else if(correct === 0 && mistakes === 0 && stage === "playing") {
+      console.log("2")
+      if(firstTime) {
+        console.log("first time!!")
+        generate();
+        let temp = {};
+        options.forEach((option) => {
+          temp[option.name] = UNSELECTED
+        });
+        setBorder(temp);
+        setClickable(true);
+        shuffle();
+        setFirstTime(false);
+      }
     } else if(mistakes !== refMistakes.current) {
+      console.log("3")
       refMistakes.current = mistakes;
       if(mistakes > 0) {
         setAnimate(true);
         setTimeout(() => {setAnimate(false)}, 2500)
       }
     } else if(selected.size > 0) {
+      console.log("4")
       let temp = {...border};
       options.forEach((option) => {
         if(option.guessed) {
@@ -67,8 +192,11 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
           border[option.name] === SELECTED ? temp[option.name] = SELECTED : temp[option.name] = UNSELECTED;
         }
       });
+      refSelected.current = selected;
       setBorder(temp);
+      setClickable(selected.size < 4);
     } else if(selected.size === 0 && selected !== refSelected.current) {
+      console.log("5")
       refSelected.current = selected;
       let temp = {...border};
       options.forEach((option) => {
@@ -79,30 +207,36 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
         }
       });
       setBorder(temp);
+      setClickable(selected.size < 4);
+    } else if (options !== refOptions.current) {
+      console.log("6")
+      refOptions.current = options;
     }
 
-    /*if(visibility === "hidden") {
-      // do nothing
-    }*/
-
-
-    else if(correct === 0 && mistakes === 0) {
-      if(stage === "playing") {
-        if(firstTime) {
-          setFirstTime(false);
-          generate();
-          let temp = {};
-          options.forEach((option) => {
-            temp[option.name] = UNSELECTED
-          });
-          setBorder(temp);
-          setClickable(true);
-          shuffle();
-        }
-      }
+    if(options.length > 1 && !shuffleConfirm) {
+      setShuffle(true);
+      shuffle();
+      // setFirstTime(false);
+      // let sum = 0;
+      // let count = 0;
+      // options.forEach((option) => {
+      //   sum += option.group;
+      //   if(option.guessed === true) {
+      //     count = -1;
+      //   }
+      //   if(count === 3 && sum === 4) {
+      //     shuffle();
+      //     count = -1;
+      //   }
+      //   if(count >= 0) {
+      //     count++;
+      //   }
+      // });
     }
-  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected]);
 
+
+  }, [generate, shuffle, correct, mistakes, refMistakes, visibility, stage, selected, options, selectFunc, border, refSelected, firstTime, returnColor, refOptions, shuffleConfirm]);
+*/
 
   // function to check whether the name being passed in has been guessed correctly already
   const checkGuessed = (name) => {
@@ -143,4 +277,4 @@ const GameBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
   );
 };
 
-export default GameBoard;
+export default TempBoard;
