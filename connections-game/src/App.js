@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import GameBoard from './components/GameBoard';
-// import TempBoard from './components/tempBoard';
 import StartScreen from './components/StartScreen';
 import ReplayScreen from './components/ReplayScreen';
 import Mistakes from './components/Mistakes';
@@ -205,42 +204,6 @@ function App() {
       setOptions(temp);
     }
     deselectAll();
-
-    /*if(correctGuesses > 0) {
-      let temp = [];
-      let groupsSolved = new Set();
-      for(let i = 0; i < (correctGuesses - 1) * 4; i++) {
-        temp.push(options[i]);
-        groupsSolved.add(options[i].group); // adds group that have been solved
-      }
-
-      let currentGroup = 0;
-      let index = 0;
-      while(currentGroup === 0) {
-        if(currentSelected.has(options[index].name)) {
-          currentGroup = options[index].group;
-        }
-        index++;
-      }
-
-      for(let j = 0; j < 16; j++) {
-        if(options[j].group === currentGroup) {
-          temp.push(options[j]);
-          temp[temp.length - 1].guessed = true;
-          groupsSolved.add(options[j].group);
-        }
-      }
-
-      for(let k = 0; k < 16; k++) {
-        if(!groupsSolved.has(options[k].group)) {
-          temp.push(options[k]);
-        }
-      }
-
-      setOptions(temp);
-    }
-    deselectAll();*/
-
   }, [correctGuesses])
 
   const [gameStage, setGameStage] = useState("start");
