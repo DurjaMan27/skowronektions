@@ -83,7 +83,7 @@ const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
         setFirstTime(false);
         setShuffled(true);
         shuffle();
-      }, 1000)
+      }, 100)
     }
     if(options !== refOptions.current) {
       refOptions.current = options;
