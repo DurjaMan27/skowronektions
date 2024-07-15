@@ -248,6 +248,10 @@ function App() {
     setSelected(new Set());
   }
 
+  const newGame = () => {
+    setMistakes(4);
+  }
+
   return (
     <>
       <div className="App">
@@ -268,7 +272,7 @@ function App() {
           <GameBoard generate={generateOptions} shuffle={shuffle} correct={correctGuesses} mistakes={totalMistakes} visibility={getVisibility("gameboard")} stage={gameStage} selected={currentSelected} options={options} selectFunc={changedSelected}/>
         </div>
         <div className="mistakes" style={{visibility: getVisibility("mistakes")}}>
-          <Mistakes totalMistakes={totalMistakes}/>
+          <Mistakes newGame={newGame} totalMistakes={totalMistakes}/>
         </div>
       </div>
     </>

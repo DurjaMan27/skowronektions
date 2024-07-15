@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef } from 'react';
  * A div on the right-hand side that counts the number of mistakes by filling in empty circles
  */
 
-const Mistakes = ( { totalMistakes } ) => {
+const Mistakes = ( { totalMistakes, newGame } ) => {
   // holds background color of each mistake circle and changes to beige depending on number of totalMistakes
   const [bgColor, setBgColor] = useState(["black", "black", "black", "black"]);
 
@@ -41,6 +41,7 @@ const Mistakes = ( { totalMistakes } ) => {
         <div id="mistake3" style={{backgroundColor: bgColor[2]}}></div>
         <div id="mistake4" style={{backgroundColor: bgColor[3]}}></div>
       </div>
+      <button onClick={newGame}>Start New Game</button>
     </>
   );
 };

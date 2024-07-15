@@ -230,3 +230,21 @@
   width: 5px;
   height: 5px;
 }
+
+.mistakes > button {
+  margin: 35px;
+  padding: 30px;
+  max-width: 60%;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  border-radius: 25px;
+  border: 2px lightgrey solid;
+  background-color: beige;
+}
+
+.mistakes > button:hover {
+  cursor: pointer;
+  box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+}
