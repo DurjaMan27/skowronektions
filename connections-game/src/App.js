@@ -52,6 +52,7 @@ function App() {
   const generateOptions = async () => {
     console.log("clearing and generating")
     const temp = await pickValues("easy");
+    console.log("here are new options")
     console.log(temp)
     setOptions(temp);
   }
