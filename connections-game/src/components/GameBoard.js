@@ -52,7 +52,7 @@ const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
   const refOptions = useRef(options);
 
   useEffect(() => {
-    console.log(options)
+    console.log("")
   }, [options])
 
   useEffect(() => {
@@ -62,7 +62,6 @@ const TempBoard = ( { generate, shuffle, correct, mistakes, visibility, stage, s
       setShuffled(false);
     } else if(stage === "playing") {
       if(firstTime) {
-        console.log("generating")
         generate();
         setClickable(true);
         let temp = {};
